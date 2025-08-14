@@ -1,4 +1,4 @@
-# 📌 Presentación del Grupo E
+# Presentación del Grupo E
 
 **Materia:** Programación III  
 **Carrera:** Facultad de Ciencias de la Administración – UNER  
