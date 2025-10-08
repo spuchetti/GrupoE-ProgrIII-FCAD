@@ -158,7 +158,7 @@ const {
       `\nProductos superiores a $${precioMaximo} han sido eliminados con éxito !`
     );
 
-    // Mostramos la info almacenada localmente luegi de hacer la eliminación
+    // Mostramos la info almacenada localmente luego de hacer la eliminación
     await mostrarProductosGuardados();
   } else {
     console.log(
