@@ -36,9 +36,9 @@ export class InformeServicio {
         alwaysQuote: true,
       });
 
-      // Formatear datos mapeando los campos del SP
+      // Formatea datos mapeando los campos del SP
       const datosFormateados = datosReporte.map((reserva) => {
-        // Formatear fecha
+        // Formatea fecha
         const fechaFormateada = reserva.fecha_reserva
           ? new Date(reserva.fecha_reserva).toLocaleDateString("es-ES", {
               day: "2-digit",
@@ -47,12 +47,12 @@ export class InformeServicio {
             })
           : "N/A";
 
-        // Mapear campos del SP a los campos esperados por el CSV
+        // Mapea campos del SP a los campos esperados por el CSV
         const salonNombre = reserva.salon_titulo || "N/A";
         const usuarioNombre =
           reserva.usuario_nombre_completo || reserva.nombre_usuario || "N/A";
 
-        // Formatear turno (hora_desde - hora_hasta)
+        // Formatea turno (hora_desde - hora_hasta)
         const turnoDescripcion =
           reserva.hora_desde && reserva.hora_hasta
             ? `${reserva.hora_desde} - ${reserva.hora_hasta}`
@@ -60,16 +60,16 @@ export class InformeServicio {
 
         const tematica = reserva.tematica || "Sin temática";
 
-        // PROCESAR SERVICIOS: Convertir en una sola cadena sin separadores problemáticos
+        // Convierte en una sola cadena sin separadores
         let serviciosTexto = "Sin servicios";
         if (reserva.servicios_contratados) {
-          // Reemplazar ; por , y quitar espacios extras
+    
           serviciosTexto = reserva.servicios_contratados
             .replace(/;\s*/g, " - ") // Cambia ; por ,
             .trim();
         }
 
-        // Formatear importe
+        // Formatea importe
         const importeTotal = reserva.importe_total
           ? `$${parseFloat(reserva.importe_total).toFixed(2)}`
           : "$0.00";
@@ -88,7 +88,7 @@ export class InformeServicio {
 
       await csvWriter.writeRecords(datosFormateados);
 
-      // Leer el archivo y agregar BOM UTF-8 manualmente para Excel
+      // Lee el archivo y agregar BOM UTF-8 manualmente para Excel
       const fileContent = fs.readFileSync(ruta, "utf8");
       const contentWithBOM = "\uFEFF" + fileContent;
       fs.writeFileSync(ruta, contentWithBOM, "utf8");
@@ -114,7 +114,7 @@ export class InformeServicio {
 
       const plantillaHtml = fs.readFileSync(plantillaPath, "utf8");
 
-      // Registrar helper para formatear fechas
+      // Registra el helper para formatear fechas
       handlebars.registerHelper("formatDate", function (dateString) {
         if (!dateString) return "N/A";
         const date = new Date(dateString);
@@ -127,11 +127,11 @@ export class InformeServicio {
 
       const template = handlebars.compile(plantillaHtml);
 
-      // Formatear los datos mapeando campos del SP
+      // Formatea los datos mapeando los campos del SP
       const datosFormateados = datosReporte.map((reserva) => ({
         reserva_id: reserva.reserva_id,
         fecha_reserva: handlebars.helpers.formatDate(reserva.fecha_reserva),
-        // Mapear campos del SP
+        // Mapea los campos del SP
         salon_nombre: reserva.salon_titulo || "N/A",
         usuario_nombre: reserva.usuario_nombre_completo || "N/A",
         turno_descripcion:

@@ -19,4 +19,4 @@ export const crearConexion = async() => {
     }
 }
 
-export const conexion = await crearConexion();
+export const conexion = await crearConexion(); 

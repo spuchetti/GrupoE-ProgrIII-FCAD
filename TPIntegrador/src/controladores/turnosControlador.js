@@ -10,7 +10,7 @@ export class TurnosControlador {
     try {
       const datos = req.body;
       const nuevoTurno = await this.servicio.crear(datos);
-      apicache.clear("/api/v1/turnos");
+      apicache.clear('/api/v1/turnos');
 
       return res.status(201).json({
         estado: true,
@@ -29,7 +29,7 @@ export class TurnosControlador {
       const turnoActualizado = await this.servicio.actualizar(id, datos);
 
       apicache.clear(`/api/v1/turnos/${id}`);
-      apicache.clear("/api/v1/turnos");
+      apicache.clear('/api/v1/turnos');
 
       return res.json({
         estado: true,
@@ -47,7 +47,7 @@ export class TurnosControlador {
       await this.servicio.eliminar(id);
 
       apicache.clear(`/api/v1/turnos/${id}`);
-      apicache.clear("/api/v1/turnos");
+      apicache.clear('/api/v1/turnos');
 
       return res.json({
         estado: true,

@@ -11,7 +11,7 @@ export class ReservasControlador {
       const { formato } = req.params;
       const { fecha_inicio, fecha_fin, salon_id, usuario_id } = req.query;
 
-      // Pasar filtros al servicio
+      // Se pasan los filtros al servicio
       const filtros = {
         fecha_inicio,
         fecha_fin,
@@ -21,7 +21,7 @@ export class ReservasControlador {
 
       const reporte = await this.servicio.generarInforme(formato, filtros);
 
-      // Configurar headers
+      // Configuramos los headers
       Object.entries(reporte.headers).forEach(([key, value]) => {
         res.setHeader(key, value);
       });
@@ -34,8 +34,7 @@ export class ReservasControlador {
             console.error("Error enviando archivo CSV:", err);
             next(err);
           }
-          // Opcional: aquí podrías eliminar el archivo temporal después de enviarlo
-          // fs.unlinkSync(reporte.path);
+          
         });
       }
     } catch (err) {
@@ -66,8 +65,7 @@ export class ReservasControlador {
       };
 
       const nuevaReserva = await this.servicio.crear(datos);
-
-      apicache.clear("/api/v1/reservas");
+      apicache.clear('/api/v1/reservas');
 
       return res.status(201).json({
         estado: true,
@@ -86,7 +84,7 @@ export class ReservasControlador {
       const reservaActualizada = await this.servicio.actualizar(id, datos);
 
       apicache.clear(`/api/v1/reservas/${id}`);
-      apicache.clear("/api/v1/reservas");
+      apicache.clear('/api/v1/reservas');
 
       return res.json({
         estado: true,
@@ -104,7 +102,7 @@ export class ReservasControlador {
       await this.servicio.eliminar(id);
 
       apicache.clear(`/api/v1/reservas/${id}`);
-      apicache.clear("/api/v1/reservas");
+      apicache.clear('/api/v1/reservas');
 
       return res.json({
         estado: true,

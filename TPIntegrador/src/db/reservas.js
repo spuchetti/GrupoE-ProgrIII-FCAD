@@ -43,7 +43,7 @@ export default class Reservas {
     return results[0][0] || null;
   };
 
-  // CREATE - Crear nueva reserva (BIEN ASÍ)
+  // CREATE - Crear nueva reserva
   crear = async (nuevaReserva) => {
     const [result] = await conexion.execute(
       "CALL sp_crear_reserva(?, ?, ?, ?, ?, ?, ?)",
