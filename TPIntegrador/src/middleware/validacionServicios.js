@@ -1,28 +1,15 @@
 import { body, param } from "express-validator";
 import { manejarResultadosValidacion } from "./resultadosValidacion.js";
 
-// Validaciones para crear salón
-export const validarCrearSalon = [
-  body("titulo")
+// Validaciones para crear servicio
+export const validarCrearServicio = [
+  body("descripcion")
     .notEmpty()
-    .withMessage("El título es requerido")
+    .withMessage("La descripción es requerida")
     .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage("El título debe tener entre 2 y 100 caracteres")
+    .isLength({ min: 10, max: 100 })
+    .withMessage("La descripción debe tener entre 10 y 100 caracteres")
     .escape(),
-
-  body("direccion")
-    .notEmpty()
-    .withMessage("La dirección es requerida")
-    .trim()
-    .isLength({ min: 5, max: 200 })
-    .withMessage("La dirección debe tener entre 5 y 200 caracteres")
-    .escape(),
-
-  body("capacidad")
-    .isInt({ min: 1 })
-    .withMessage("La capacidad debe ser un número entero mayor a 0")
-    .toInt(),
 
   body("importe")
     .isFloat({ min: 1 })
@@ -32,29 +19,18 @@ export const validarCrearSalon = [
   manejarResultadosValidacion,
 ];
 
-// Validaciones para actualizar salón
-export const validarActualizarSalon = [
+// Validaciones para actualizar servicio
+export const validarActualizarServicio = [
   param("id").isInt({ min: 1 }).withMessage("ID inválido").toInt(),
 
-  body("titulo")
+   body("descripcion")
+    .notEmpty()
     .optional()
+    .withMessage("La descripción es requerida")
     .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage("El título debe tener entre 2 y 100 caracteres")
+    .isLength({ min: 10, max: 100 })
+    .withMessage("La descripción debe tener entre 10 y 100 caracteres")
     .escape(),
-
-  body("direccion")
-    .optional()
-    .trim()
-    .isLength({ min: 5, max: 200 })
-    .withMessage("La dirección debe tener entre 5 y 200 caracteres")
-    .escape(),
-
-  body("capacidad")
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage("La capacidad debe ser un número entero mayor a 0")
-    .toInt(),
 
   body("importe")
     .optional()
@@ -65,9 +41,7 @@ export const validarActualizarSalon = [
   // Validamos que al menos un campo sea proporcionado
   body().custom((value, { req }) => {
     const camposPermitidos = [
-      "titulo",
-      "direccion",
-      "capacidad",
+      "descripcion",
       "importe"
     ];
     const camposProporcionados = Object.keys(req.body);
