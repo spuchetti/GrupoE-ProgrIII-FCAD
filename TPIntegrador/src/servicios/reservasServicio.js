@@ -115,16 +115,39 @@ export class ReservasServicio {
       throw new ErrorApp("No pudo crearse la reserva");
     }
 
-    await this.reservas_servicios.crear(nuevaReserva.reserva_id, servicios);
+    if (Array.isArray(servicios) && servicios.length > 0) {
+      await this.reservas_servicios.crear(nuevaReserva.reserva_id, servicios);
+    }
 
     try {
-      const datosParaNotificacion = await this.reservasDB.datosParaNotificacion(
+      const reservaCompleta = await this.reservasDB.buscarPorId(
         nuevaReserva.reserva_id
       );
 
-      await this.notificaciones_servicios.enviarCorreo(datosParaNotificacion);
-    } catch (notificacionError) {
-      console.log("Advertencia: No se pudo enviar el correo.");
+      const datosParaNotificacion = [
+        [
+          {
+            fecha: reservaCompleta.fecha_reserva,
+            salon: reservaCompleta.salon_id,
+            turno: reservaCompleta.turno_id,
+          },
+        ],
+        [
+          {
+            correoAdmin: "grupoe.progr3.fcad@gmail.com",
+          },
+        ],
+      ];
+
+      const correoEnviado = await this.notificaciones_servicios.enviarCorreo(
+        datosParaNotificacion
+      );
+
+      if (!correoEnviado) {
+        console.warn("⚠️ No se pudo enviar el correo de notificación.");
+      }
+    } catch (error) {
+      console.error("❌ Error inesperado al preparar la notificación:", error);
     }
 
     return this.reservasDB.buscarPorId(nuevaReserva.reserva_id);

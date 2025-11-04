@@ -1,9 +1,11 @@
 import apicache from "apicache";
 import { ReservasServicio } from "../servicios/reservasServicio.js";
+import { NotificacionesServicio } from "../servicios/notificacionesServicio.js";
 
 export class ReservasControlador {
   constructor() {
     this.servicio = new ReservasServicio();
+    this.notificador = new NotificacionesServicio();
   }
 
   generarReporte = async (req, res, next) => {
@@ -51,6 +53,8 @@ export class ReservasControlador {
         turno_id,
         foto_cumpleaniero,
         tematica,
+        importe_salon,
+        importe_total,
         servicios,
       } = req.body;
 
@@ -65,7 +69,23 @@ export class ReservasControlador {
       };
 
       const nuevaReserva = await this.servicio.crear(datos);
-      apicache.clear('/api/v1/reservas');
+
+      const datosCorreo = [
+        [
+          {
+            fecha: nuevaReserva.fecha_reserva,
+            salon: nuevaReserva.salon_id,
+            turno: nuevaReserva.turno_id,
+          },
+        ],
+        [
+          {
+            correoAdmin: "grupoe.progr3.fcad@gmail.com",
+          },
+        ],
+      ];
+
+      apicache.clear("/api/v1/reservas");
 
       return res.status(201).json({
         estado: true,

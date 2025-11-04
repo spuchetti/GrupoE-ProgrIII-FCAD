@@ -201,3 +201,24 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerDatosNotificacion`(IN p_reserva_id INT)
+BEGIN
+    -- 1️⃣ Datos de la reserva y del usuario que la hizo
+    SELECT 
+        r.fecha_reserva AS fecha,
+        s.titulo AS salon,
+        t.orden AS turno,
+        u.nombre_usuario AS usuario
+    FROM reservas r
+    INNER JOIN usuarios u ON u.usuario_id = r.usuario_id
+    INNER JOIN salones s ON s.salon_id = r.salon_id
+    INNER JOIN turnos t ON t.turno_id = r.turno_id
+    WHERE r.reserva_id = p_reserva_id;
+
+    -- 2️⃣ Correo del administrador o de control
+    SELECT 'grupoe.progr3.fcad@gmail.com' AS correoAdmin;
+END$$
+
+DELIMITER ;
