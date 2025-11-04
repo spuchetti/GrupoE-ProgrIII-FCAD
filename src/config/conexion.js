@@ -11,8 +11,7 @@ export const crearConexion = async() => {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    multipleStatements: true // necesario para ejecutar varios statements (p. ej. crear procedimientos)
+    password: process.env.DB_PASSWORD
 });
     } catch(err){
          console.error('Error al crear la conexión:', err);
@@ -20,4 +19,4 @@ export const crearConexion = async() => {
     }
 }
 
-export const conexion = await crearConexion();
+export const conexion = await crearConexion(); 

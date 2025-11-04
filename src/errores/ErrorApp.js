@@ -31,3 +31,21 @@ export class ErrorBaseDatos extends ErrorApp {
     super(mensaje, 500);
   }
 }
+
+export class ErrorCredencialesInvalidas extends ErrorAuth {
+  constructor() {
+    super("Credenciales inválidas");
+  }
+}
+
+export class ErrorTokenInvalido extends ErrorAuth {
+  constructor() {
+    super("Token inválido o expirado");
+  }
+}
+
+export class ErrorPermisosInsuficientes extends ErrorAuth {
+  constructor() {
+    super("Permisos insuficientes");
+  }
+}
