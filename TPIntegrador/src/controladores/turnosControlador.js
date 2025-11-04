@@ -1,22 +1,21 @@
-// salonesControlador.js
 import apicache from 'apicache';
-import { SalonesServicio } from "../servicios/salonesServicio.js";
+import { TurnosServicio } from "../servicios/turnosServicio.js";
 
-export class SalonesControlador {
+export class TurnosControlador {
   constructor() {
-    this.servicio = new SalonesServicio();
+    this.servicio = new TurnosServicio();
   }
 
   crear = async (req, res, next) => {
     try {
       const datos = req.body;
-      const nuevoSalon = await this.servicio.crear(datos);
-      apicache.clear('/api/v1/salones');
+      const nuevoTurno = await this.servicio.crear(datos);
+      apicache.clear('/api/v1/turnos');
 
       return res.status(201).json({
         estado: true,
-        mensaje: 'Salón creado correctamente',
-        datos: nuevoSalon,
+        mensaje: "Turno creado correctamente",
+        datos: nuevoTurno,
       });
     } catch (err) {
       next(err);
@@ -27,14 +26,15 @@ export class SalonesControlador {
     try {
       const { id } = req.params;
       const datos = req.body;
-      const actualizado = await this.servicio.actualizar(id, datos);
-      apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear('/api/v1/salones');
+      const turnoActualizado = await this.servicio.actualizar(id, datos);
+
+      apicache.clear(`/api/v1/turnos/${id}`);
+      apicache.clear('/api/v1/turnos');
 
       return res.json({
         estado: true,
-        mensaje: "Salón actualizado correctamente",
-        datos: actualizado,
+        mensaje: "Turno actualizado correctamente",
+        datos: turnoActualizado,
       });
     } catch (err) {
       next(err);
@@ -45,12 +45,13 @@ export class SalonesControlador {
     try {
       const { id } = req.params;
       await this.servicio.eliminar(id);
-      apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear('/api/v1/salones');
+
+      apicache.clear(`/api/v1/turnos/${id}`);
+      apicache.clear('/api/v1/turnos');
 
       return res.json({
         estado: true,
-        mensaje: "Salón eliminado correctamente",
+        mensaje: "Turno eliminado correctamente",
       });
     } catch (err) {
       next(err);
@@ -59,10 +60,11 @@ export class SalonesControlador {
 
   buscarTodos = async (req, res, next) => {
     try {
-      const salones = await this.servicio.buscarTodos();
+      const turnos = await this.servicio.buscarTodos();
+      
       return res.json({
         estado: true,
-        datos: salones,
+        datos: turnos,
       });
     } catch (err) {
       next(err);
@@ -72,14 +74,14 @@ export class SalonesControlador {
   buscarPorId = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const salon = await this.servicio.buscarPorId(id);
+      const turno = await this.servicio.buscarPorId(id);
 
       return res.json({
         estado: true,
-        datos: salon,
+        datos: turno,
       });
     } catch (err) {
       next(err);
     }
   };
-};
+}

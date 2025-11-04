@@ -1,22 +1,21 @@
-// salonesControlador.js
 import apicache from 'apicache';
-import { SalonesServicio } from "../servicios/salonesServicio.js";
+import { UsuariosServicio } from "../servicios/usuariosServicio.js";
 
-export class SalonesControlador {
+export class UsuariosControlador {
   constructor() {
-    this.servicio = new SalonesServicio();
+    this.servicio = new UsuariosServicio();
   }
 
   crear = async (req, res, next) => {
     try {
       const datos = req.body;
-      const nuevoSalon = await this.servicio.crear(datos);
-      apicache.clear('/api/v1/salones');
+      const nuevoUsuario = await this.servicio.crear(datos);
+      apicache.clear('/api/v1/usuarios');
 
       return res.status(201).json({
         estado: true,
-        mensaje: 'Salón creado correctamente',
-        datos: nuevoSalon,
+        mensaje: "Usuario creado correctamente",
+        datos: nuevoUsuario,
       });
     } catch (err) {
       next(err);
@@ -27,14 +26,15 @@ export class SalonesControlador {
     try {
       const { id } = req.params;
       const datos = req.body;
-      const actualizado = await this.servicio.actualizar(id, datos);
-      apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear('/api/v1/salones');
+      const usuarioActualizado = await this.servicio.actualizar(id, datos);
+
+      apicache.clear(`/api/v1/usuarios/${id}`);
+      apicache.clear('/api/v1/usuarios');
 
       return res.json({
         estado: true,
-        mensaje: "Salón actualizado correctamente",
-        datos: actualizado,
+        mensaje: "Usuario actualizado correctamente",
+        datos: usuarioActualizado,
       });
     } catch (err) {
       next(err);
@@ -45,12 +45,13 @@ export class SalonesControlador {
     try {
       const { id } = req.params;
       await this.servicio.eliminar(id);
-      apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear('/api/v1/salones');
+
+      apicache.clear(`/api/v1/usuarios/${id}`);
+      apicache.clear('/api/v1/usuarios');
 
       return res.json({
         estado: true,
-        mensaje: "Salón eliminado correctamente",
+        mensaje: "Usuario eliminado correctamente",
       });
     } catch (err) {
       next(err);
@@ -59,10 +60,11 @@ export class SalonesControlador {
 
   buscarTodos = async (req, res, next) => {
     try {
-      const salones = await this.servicio.buscarTodos();
+      const usuarios = await this.servicio.buscarTodos();
+
       return res.json({
         estado: true,
-        datos: salones,
+        datos: usuarios,
       });
     } catch (err) {
       next(err);
@@ -72,14 +74,14 @@ export class SalonesControlador {
   buscarPorId = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const salon = await this.servicio.buscarPorId(id);
-
+      const usuario = await this.servicio.buscarPorId(id);
+      
       return res.json({
         estado: true,
-        datos: salon,
+        datos: usuario,
       });
     } catch (err) {
       next(err);
     }
   };
-};
+}

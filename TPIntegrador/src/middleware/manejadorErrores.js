@@ -6,7 +6,7 @@ export const manejadorErrores = (error, req, res, next) => {
   // Si el error ya es una instancia de ErrorApp, usamos sus propiedades
   if (error instanceof ErrorApp) {
     return res.status(error.status).json({
-      ok: false,
+      estado: false,
       mensaje: error.message,
       detalles: error.detalles
     });
@@ -15,7 +15,7 @@ export const manejadorErrores = (error, req, res, next) => {
   // Errores de base de datos MySQL
   if (error.code && error.code.startsWith('ER_')) {
     return res.status(409).json({
-      ok: false,
+      estado: false,
       mensaje: 'Error de base de datos',
       codigo: error.code
     });
@@ -23,7 +23,7 @@ export const manejadorErrores = (error, req, res, next) => {
 
   // Error por defecto
   res.status(error.status || 500).json({
-    ok: false,
+    estado: false,
     mensaje: error.message || 'Error interno del servidor'
   });
 };
