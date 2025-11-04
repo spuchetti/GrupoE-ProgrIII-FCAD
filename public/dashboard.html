@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: var(--dark);
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card h3 {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .card.total {
+            border-top: 4px solid rgba(52, 152, 219, 0.5);
+        }
+
+        .card.capacity {
+            border-top: 4px solid rgba(46, 204, 113, 0.5);
+        }
+
+        .card.income {
+            border-top: 4px solid rgba(243, 156, 18, 0.5);
+        }
+
+        .card.avg {
+            border-top: 4px solid rgba(231, 76, 60, 0.5);
+        }
+
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        .chart-container h2 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* Estilos para el área de administración */
+        .admin-area h2 {
+            text-align: center;
+        }
+
+        .admin-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            flex-direction: column;
+            /* apilar verticalmente */
+            width: 100%;
+        }
+
+        .admin-controls button {
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: var(--primary);
+            color: #fff;
+            cursor: pointer;
+            width: 220px;
+            /* tamaño uniforme */
+            text-align: center;
+        }
+
+        .admin-controls button[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Estilos para reporte: responsivo, cabecera fija y scroll */
+        #reporte-result {
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow: auto;
+            max-height: 420px;
+            /* limita la altura y permite scroll */
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 12px;
+            /* más espacio interior */
+            background: #fff;
+        }
+
+        table.report-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            /* fuerza corte de texto para columnas largas */
+            word-break: break-word;
+        }
+
+        table.report-table th,
+        table.report-table td {
+            padding: 12px 14px;
+            /* mayor separación */
+            border-bottom: 1px solid #f1f1f1;
+            text-align: left;
+        }
+
+        table.report-table thead th {
+            position: sticky;
+            top: 0;
+            background: #fafafa;
+            z-index: 2;
+        }
+
+        table.report-table tbody tr:nth-child(even) {
+            background: #fbfbfb;
+        }
+
+        /* Inputs de filtros centrados y con separación */
+        #reporte-filtros {
+            display: none;
+            /* oculto hasta pulsar Generar Informe */
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        #reporte-filtros label {
+            font-size: 0.95rem;
+        }
+
+        #reporte-filtros input[type="date"],
+        #reporte-filtros input[type="number"] {
+            padding: 6px 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        /* Barra lateral para mostrar el informe (drawer) */
+        .report-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 999;
+        }
+
+        .report-sidebar {
+            display: none;
+            position: fixed;
+            top: 60px;
+            right: 0;
+            height: calc(100vh - 80px);
+            width: 480px;
+            max-width: 85%;
+            background: #fff;
+            box-shadow: -6px 0 18px rgba(0, 0, 0, 0.12);
+            border-left: 1px solid #eee;
+            padding: 16px;
+            z-index: 1000;
+            overflow: auto;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .report-sidebar .close-btn {
+            display: inline-block;
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            float: right;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .report-sidebar h3 {
+            margin-top: 6px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .salon-list {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            border-top: 4px solid rgba(155, 89, 182, 0.6);
+        }
+
+        .salon-list h2 {
+            text-align: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #5a4a4a;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #salones-table th,
+        #salones-table td {
+            padding: 8px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        #salones-table th {
+            background-color: #eeeeee;
+            color: #333;
+            font-weight: 600;
+        }
+
+        #salones-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #salones-table tbody tr:nth-child(odd) {
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading.visible {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Estilos para el modal de login */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .login-modal {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-modal h2 {
+            margin-bottom: 30px;
+            color: var(--dark);
+            font-size: 1.8rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .login-form input {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .login-form button {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .login-form button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-error {
+            color: var(--danger);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .login-error.visible {
+            display: block;
+        }
+
+        .login-overlay.hidden {
+            display: none;
+        }
+
+        #dashboard-content.hidden,
+        header.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .charts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal de Login -->
+    <div id="login-overlay" class="login-overlay">
+        <div class="login-modal">
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form" class="login-form">
+                <input type="text" id="login-usuario" placeholder="Usuario" required autocomplete="username">
+                <input type="password" id="login-password" placeholder="Contraseña" required autocomplete="current-password">
+                <button type="submit" id="login-submit-btn">Ingresar</button>
+                <div id="login-error" class="login-error"></div>
+            </form>
+        </div>
+    </div>
+
+    <header class="hidden">
+        <div class="container">
+            <div class="header-content">
+                <h1>Estadísticas de Salones</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="dashboard-content" class="hidden">
+            <div class="dashboard">
+                <div class="card total">
+                    <h3>Total de Salones</h3>
+                    <div class="value" id="total-salones">0</div>
+                </div>
+                <div class="card capacity">
+                    <h3>Capacidad Total</h3>
+                    <div class="value" id="total-capacidad">0</div>
+                </div>
+                <div class="card income">
+                    <h3>Ingreso Promedio</h3>
+                    <div class="value" id="promedio-importe">$0</div>
+                </div>
+                <div class="card avg">
+                    <h3>Capacidad Promedio</h3>
+                    <div class="value" id="promedio-capacidad">0</div>
+                </div>
+            </div>
+
+            <div class="charts">
+                <div class="chart-container">
+                    <h2>Distribución de Capacidades</h2>
+                    <canvas id="capacidad-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Distribución de Precios</h2>
+                    <canvas id="precio-chart"></canvas>
+                </div>
+            </div>
+
+            <div class="salon-list">
+                <h2>Lista de Salones</h2>
+                <table id="salones-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Dirección</th>
+                            <th>Capacidad</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sección de administración (login e instalación de SPs) -->
+            <div class="salon-list admin-area" style="margin-top:20px;">
+                <h2>Administración</h2>
+                <div id="admin-area" class="admin-controls">
+                    <button id="admin-login-btn" style="display:none;">Login Administrador</button>
+                    <button id="logout-btn" style="display:none;">Cerrar Sesión</button>
+                    <button id="install-sps-btn" style="display:none;">Instalar/Actualizar SPs en la BD</button>
+                    <button id="generar-reporte-btn" style="display:none;">Generar Informe de Reservas</button>
+                    <span id="admin-status" style="display:none; margin-left:10px;color:var(--gray);"></span>
+
+                    <div id="reporte-filtros"
+                        style="margin-top:12px; display:none; width:100%; justify-content:center;">
+                        <label style="margin-right:6px;">Fecha inicio: <input type="date" id="f_inicio"></label>
+                        <label style="margin-right:6px;">Fecha fin: <input type="date" id="f_fin"></label>
+                        <label style="margin-right:6px;">Salon ID: <input type="number" id="f_salon" min="1"
+                                style="width:80px;"></label>
+                        <label style="margin-right:6px;">Usuario ID: <input type="number" id="f_usuario" min="1"
+                                style="width:80px;"></label>
+                        <button id="run-reporte" style="margin-left:6px;">Ejecutar</button>
+                    </div>
+
+                    <div id="reporte-result"
+                        style="margin-top:12px; display:none; background:#fff; padding:12px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06);">
+                        <h3>Resultados del Informe</h3>
+                        <div id="reporte-contenido">No hay datos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let salones = [];
+
+        const elementoCarga = document.getElementById('loading');
+        const loginOverlay = document.getElementById('login-overlay');
+        const dashboardContent = document.getElementById('dashboard-content');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const loginSubmitBtn = document.getElementById('login-submit-btn');
+
+        const headerEl = document.querySelector('header');
+
+        // Función para mostrar el dashboard después del login
+        function mostrarDashboard() {
+            loginOverlay.classList.add('hidden');
+            dashboardContent.classList.remove('hidden');
+            headerEl.classList.remove('hidden');
+            // Mostrar botones de administración
+            const installBtn = document.getElementById('install-sps-btn');
+            const reporteBtn = document.getElementById('generar-reporte-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            if (installBtn) installBtn.style.display = 'block';
+            if (reporteBtn) reporteBtn.style.display = 'block';
+            if (logoutBtn) logoutBtn.style.display = 'block';
+            // Cargar datos del dashboard
+            cargarDatos();
+        }
+
+        // Función para ocultar el dashboard y mostrar login
+        function ocultarDashboard() {
+            loginOverlay.classList.remove('hidden');
+            dashboardContent.classList.add('hidden');
+            headerEl.classList.add('hidden');
+            // Ocultar botones de administración
+            const installBtn = document.getElementById('install-sps-btn');
+            const reporteBtn = document.getElementById('generar-reporte-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            if (installBtn) installBtn.style.display = 'none';
+            if (reporteBtn) reporteBtn.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+            // Limpiar formulario de login
+            document.getElementById('login-usuario').value = '';
+            document.getElementById('login-password').value = '';
+            loginError.classList.remove('visible');
+        }
+
+        // Verificar si hay un token guardado al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            // Asegurar que el dashboard esté oculto por defecto
+            dashboardContent.classList.add('hidden');
+            headerEl.classList.add('hidden');
+            
+            const token = localStorage.getItem('admin_token');
+            if (token) {
+                // Si hay token, mostrar dashboard
+                mostrarDashboard();
+            } else {
+                // Si no hay token, mostrar solo login
+                ocultarDashboard();
+            }
+        });
+
+        // Manejar el submit del formulario de login
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            const usuario = document.getElementById('login-usuario').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!usuario || !password) {
+                mostrarError('Por favor, completa todos los campos');
+                return;
+            }
+
+            try {
+                loginSubmitBtn.disabled = true;
+                loginSubmitBtn.textContent = 'Ingresando...';
+                loginError.classList.remove('visible');
+
+                const resp = await fetch('/api/v1/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, password })
+                });
+
+                if (!resp.ok) {
+                    const err = await resp.json().catch(() => ({}));
+                    throw new Error(err.mensaje || err.message || 'Error al iniciar sesión');
+                }
+
+                const body = await resp.json();
+                const token = body.token;
+                localStorage.setItem('admin_token', token);
+
+                // Mostrar dashboard
+                mostrarDashboard();
+
+            } catch (err) {
+                console.error(err);
+                mostrarError(err.message || 'Error al iniciar sesión. Verifica tus credenciales.');
+            } finally {
+                loginSubmitBtn.disabled = false;
+                loginSubmitBtn.textContent = 'Ingresar';
+            }
+        });
+
+        function mostrarError(mensaje) {
+            loginError.textContent = mensaje;
+            loginError.classList.add('visible');
+        }
+
+        // Cargar datos del dashboard
+        async function cargarDatos() {
+            try {
+                elementoCarga.classList.add('visible');
+
+                const response = await fetch('/api/v1/salones');
+
+                if (!response.ok) {
+                    throw new Error('Error al cargar datos');
+                }
+
+                const data = await response.json();
+                salones = data.datos;
+
+                actualizarEstadisticas();
+
+                actualizarTabla();
+
+                crearGraficos();
+
+            } catch (error) {
+                console.error('Error al cargar datos:', error);
+                alert('Error al cargar datos. Verifica la conexión.');
+            } finally {
+                elementoCarga.classList.remove('visible');
+            }
+        }
+
+        function actualizarEstadisticas() {
+            // Total de salones
+            document.getElementById('total-salones').textContent = salones.length;
+
+            // Capacidad total
+            const totalCapacidad = salones.reduce((suma, salon) => suma + (parseInt(salon.capacidad) || 0), 0);
+            document.getElementById('total-capacidad').textContent = totalCapacidad;
+
+            // Importe promedio
+            const totalImporte = salones.reduce((suma, salon) => {
+                const importe = parseFloat(salon.importe) || 0;
+                return suma + importe;
+            }, 0);
+            const importePromedio = salones.length > 0 ? totalImporte / salones.length : 0;
+            document.getElementById('promedio-importe').textContent = `$${importePromedio.toFixed(2)}`;
+
+            // Capacidad promedio
+            const capacidadPromedio = salones.length > 0 ? totalCapacidad / salones.length : 0;
+            document.getElementById('promedio-capacidad').textContent = Math.round(capacidadPromedio);
+        }
+
+        // Actualizar tabla de salones
+        function actualizarTabla() {
+            const cuerpoTabla = document.querySelector('#salones-table tbody');
+            cuerpoTabla.innerHTML = '';
+
+            salones.forEach(salon => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${salon.salon_id}</td>
+                    <td>${salon.titulo}</td>
+                    <td>${salon.direccion}</td>
+                    <td>${salon.capacidad}</td>
+                    <td>$${salon.importe}</td>
+                `;
+                cuerpoTabla.appendChild(fila);
+            });
+        }
+
+        function crearGraficos() {
+            // Gráfico de capacidades
+            const ctxCapacidad = document.getElementById('capacidad-chart').getContext('2d');
+            const capacidades = salones.map(salon => salon.capacidad);
+
+            new Chart(ctxCapacidad, {
+                type: 'bar',
+                data: {
+                    labels: salones.map(salon => salon.titulo),
+                    datasets: [{
+                        label: 'Capacidad',
+                        data: capacidades,
+                        backgroundColor: 'rgba(173, 216, 230, 0.7)',
+                        borderColor: 'rgba(135, 206, 250, 0.8)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Gráfico de precios
+            const ctxPrecio = document.getElementById('precio-chart').getContext('2d');
+            const precios = salones.map(salon => salon.importe);
+
+            new Chart(ctxPrecio, {
+                type: 'line',
+                data: {
+                    labels: salones.map(salon => salon.titulo),
+                    datasets: [{
+                        label: 'Precio ($)',
+                        data: precios,
+                        backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                        borderColor: 'rgba(46, 204, 113, 1)',
+                        borderWidth: 1,
+                        tension: 0.3,
+                        fill: true,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointStyle: 'circle'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // ---------------- ADMIN  -----------------
+        const adminLoginBtn = document.getElementById('admin-login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const installSpsBtn = document.getElementById('install-sps-btn');
+        const generarReporteBtn = document.getElementById('generar-reporte-btn');
+        const adminStatus = document.getElementById('admin-status');
+        const reporteFiltros = document.getElementById('reporte-filtros');
+        const runReporteBtn = document.getElementById('run-reporte');
+        const reporteResult = document.getElementById('reporte-result');
+        const reporteContenido = document.getElementById('reporte-contenido');
+
+        // Asegurar que el botón de login antiguo esté siempre oculto
+        if (adminLoginBtn) {
+            adminLoginBtn.style.display = 'none';
+        }
+
+        // Botón de cerrar sesión
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                    // Eliminar token del localStorage
+                    localStorage.removeItem('admin_token');
+                    // Limpiar formulario de login
+                    document.getElementById('login-usuario').value = '';
+                    document.getElementById('login-password').value = '';
+                    loginError.classList.remove('visible');
+                    // Ocultar dashboard y mostrar login
+                    ocultarDashboard();
+                }
+            });
+        }
+
+        // Mantenerlo oculto
+        if (adminLoginBtn) {
+            adminLoginBtn.addEventListener('click', async () => {
+            // Mostrar prompt simple para usuario/clave
+            const usuario = prompt('Usuario administrador:', 'admin');
+            if (!usuario) return;
+            const password = prompt('Contraseña:', '');
+            if (!password) return;
+
+            try {
+                const resp = await fetch('/api/v1/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, password })
+                });
+
+                if (!resp.ok) {
+                    const err = await resp.json().catch(() => ({}));
+                    alert('Login falló: ' + (err.mensaje || err.message || resp.statusText));
+                    return;
+                }
+
+                const body = await resp.json();
+                const token = body.token;
+                localStorage.setItem('admin_token', token);
+                alert('Conectado como admin');
+                // mostrar botones apilados uno debajo del otro
+                installSpsBtn.style.display = 'block';
+                generarReporteBtn.style.display = 'block';
+                // opcional: enfocar el primer botón tras login
+                generarReporteBtn.focus();
+            } catch (err) {
+                console.error(err);
+                alert('Error en login admin');
+            }
+            });
+        }
+
+        // Mostrar panel de filtros cuando se pulsa el botón generar reporte
+        generarReporteBtn.addEventListener('click', () => {
+            const token = localStorage.getItem('admin_token');
+            if (!token) { alert('No estás autenticado como admin'); return; }
+            // Mostrar los inputs
+            reporteFiltros.style.display = 'flex';
+            // boton ejecutar 
+            runReporteBtn.style.display = 'inline-block';
+            runReporteBtn.focus();
+        });
+
+        installSpsBtn.addEventListener('click', async () => {
+            const token = localStorage.getItem('admin_token');
+            if (!token) { alert('No estás autenticado como admin'); return; }
+
+            if (!confirm('¿Instalar/Actualizar los procedimientos almacenados en la base de datos?')) return;
+
+            try {
+                installSpsBtn.disabled = true;
+                const prevText = installSpsBtn.textContent;
+                installSpsBtn.textContent = 'Instalando...';
+
+                const resp = await fetch('/api/v1/admin/instalar-sps', {
+                    method: 'POST',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+
+                const data = await resp.json();
+                if (!resp.ok) throw new Error(data.mensaje || 'Error desconocido');
+
+                alert(data.mensaje || 'SPs instalados/actualizados correctamente');
+                installSpsBtn.textContent = prevText;
+            } catch (err) {
+                console.error(err);
+                alert('Hubo un error: ' + (err.message || err));
+            } finally {
+                installSpsBtn.disabled = false;
+            }
+        });
+
+        // Ejecutar reporte con filtros
+        runReporteBtn.addEventListener('click', async () => {
+            const token = localStorage.getItem('admin_token');
+            if (!token) { alert('No estás autenticado como admin'); return; }
+
+            const f_inicio = document.getElementById('f_inicio').value || '';
+            const f_fin = document.getElementById('f_fin').value || '';
+            const f_salon = document.getElementById('f_salon').value || '';
+            const f_usuario = document.getElementById('f_usuario').value || '';
+
+            // query string
+            const params = new URLSearchParams();
+            if (f_inicio) params.append('fecha_inicio', f_inicio);
+            if (f_fin) params.append('fecha_fin', f_fin);
+            if (f_salon) params.append('salon_id', f_salon);
+            if (f_usuario) params.append('usuario_id', f_usuario);
+
+            try {
+                runReporteBtn.disabled = true;
+                const prevText = runReporteBtn.textContent;
+                runReporteBtn.textContent = 'Generando...';
+
+                const resp = await fetch('/api/v1/admin/reporte-reservas?' + params.toString(), {
+                    method: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+
+                const data = await resp.json();
+                if (!resp.ok) throw new Error(data.mensaje || 'Error generando informe');
+
+                const resultados = data.datos || [];
+
+                // Render simple de resultados en tabla
+                if (resultados.length === 0) {
+                    reporteContenido.innerHTML = '<p>No se encontraron registros para los filtros seleccionados.</p>';
+                } else {
+                    // Helper para formatear valores: fechas y montos
+                    const formatCellValue = (key, val) => {
+                        if (val === null || val === undefined) return '';
+                        const lower = String(key).toLowerCase();
+                        // intentamos detectar montos/importe/total
+                        if (lower.includes('importe') || lower.includes('total') || lower.includes('precio')) {
+                            const num = Number(val);
+                            if (!Number.isNaN(num)) return '$' + num.toFixed(2);
+                        }
+                        // detectar campo fecha
+                        if (lower.includes('fecha')) {
+                            // normalizar a YYYY-MM-DD si viene con time
+                            try {
+                                const d = new Date(val);
+                                if (!isNaN(d)) {
+                                    return d.toISOString().slice(0, 10);
+                                }
+                            } catch (e) { }
+                        }
+                        return String(val);
+                    };
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'table-responsive';
+
+                    const tabla = document.createElement('table');
+                    tabla.className = 'report-table';
+                    const thead = document.createElement('thead');
+                    const tbody = document.createElement('tbody');
+
+                    // Cabeceras dinámicas
+                    const keys = Object.keys(resultados[0]);
+                    // Si hay una columna fecha, ordenamos los resultados por esa columna (desc)
+                    const fechaKey = keys.find(k => k.toLowerCase().includes('fecha'));
+                    if (fechaKey) {
+                        resultados.sort((a, b) => {
+                            const da = new Date(a[fechaKey]);
+                            const db = new Date(b[fechaKey]);
+                            return db - da; // descendente
+                        });
+                    }
+
+                    const trHead = document.createElement('tr');
+                    keys.forEach(k => {
+                        const th = document.createElement('th');
+                        th.textContent = k;
+                        trHead.appendChild(th);
+                    });
+                    thead.appendChild(trHead);
+
+                    resultados.forEach(row => {
+                        const tr = document.createElement('tr');
+                        keys.forEach(k => {
+                            const td = document.createElement('td');
+                            td.textContent = formatCellValue(k, row[k]);
+                            tr.appendChild(td);
+                        });
+                        tbody.appendChild(tr);
+                    });
+
+                    tabla.appendChild(thead);
+                    tabla.appendChild(tbody);
+                    wrapper.appendChild(tabla);
+
+                    // Generar CSV y disparar descarga directamente
+                    const toCsvValue = (v) => {
+                        if (v === null || v === undefined) return '';
+                        // escapar comillas dobles
+                        const s = String(v).replace(/"/g, '""');
+                        return '"' + s + '"';
+                    };
+
+                    const csvKeys = keys;
+                    const csvRows = resultados.map(r => csvKeys.map(k => formatCellValue(k, r[k])).map(toCsvValue).join(','));
+                    const header = csvKeys.map(k => '"' + String(k).replace(/"/g, '""') + '"').join(',');
+                    const csvContent = [header].concat(csvRows).join('\r\n');
+
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const now = new Date();
+                    const pad = (n) => String(n).padStart(2, '0');
+                    const fname = `informe_reservas_${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}.csv`;
+                    a.href = url;
+                    a.download = fname;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    // No revocar inmediatamente para que el enlace de respaldo funcione
+                    setTimeout(() => URL.revokeObjectURL(url), 60000);
+
+                    // Mostrar mensaje de confirmación y un enlace de respaldo dentro del contenido
+                    reporteContenido.innerHTML = `<p>Se inició la descarga del informe: <strong>${fname}</strong></p>` +
+                        `<p>Si la descarga no comienza automáticamente, <a id="csv-link" href="${url}" download="${fname}">haz clic aquí</a></p>`;
+                }
+                // desplazar suavemente a la barra lateral (si está abierta) o a la sección de resultados
+                setTimeout(() => {
+                    const sidebar = document.getElementById('report-sidebar');
+                    if (sidebar && sidebar.style.display === 'block') {
+                        sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        reporteResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 80);
+                alert('Informe generado');
+                runReporteBtn.textContent = prevText;
+            } catch (err) {
+                console.error(err);
+                alert('Error al generar informe: ' + (err.message || err));
+            } finally {
+                runReporteBtn.disabled = false;
+            }
+        });
+
+        // Lógica para cerrar la barra lateral de informe
+        const overlayEl = document.getElementById('report-overlay');
+        const sidebarCloseBtn = document.getElementById('close-report-sidebar');
+        const sidebarEl = document.getElementById('report-sidebar');
+        const closeSidebar = () => {
+            if (overlayEl) overlayEl.style.display = 'none';
+            if (sidebarEl) sidebarEl.style.display = 'none';
+        };
+        if (overlayEl) overlayEl.addEventListener('click', closeSidebar);
+        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
+        // -------------------------------------------
+    </script>strar 
+    <!-- barra lateral informes -->
+    <div id="report-overlay" class="report-overlay"></div>
+    <aside id="report-sidebar" class="report-sidebar" aria-hidden="true">
+        <button id="close-report-sidebar" class="close-btn" title="Cerrar">×</button>
+        <h3>Resultados del Informe</h3>
+        <div id="report-sidebar-content">No hay datos</div>
+    </aside>
+</body>
+
+</html>
