@@ -8,7 +8,7 @@ export class ReservasServicios {
 
             let totalServicios = 0;
 
-            // 1. Insertar servicios y calcular total
+            // Insertamos los servicios y calculamos los totales
             for (const servicio of servicios){
                 const sql = `INSERT INTO reservas_servicios (reserva_id, servicio_id, importe) 
                     VALUES (?,?,?);`;
@@ -17,7 +17,7 @@ export class ReservasServicios {
                 totalServicios += parseFloat(servicio.importe);
             }
 
-            // 2. Obtener importe del salón
+            // Obtener el importe del salón
             const [salonResult] = await conexion.execute(
                 `SELECT importe_salon FROM reservas WHERE reserva_id = ?`,
                 [reserva_id]
@@ -25,7 +25,7 @@ export class ReservasServicios {
             
             const importeSalon = parseFloat(salonResult[0].importe_salon) || 0;
 
-            // 3. Calcular y actualizar importe_total
+            // Calculamos y actualizamos importe_total
             const importeTotal = importeSalon + totalServicios;
             
             await conexion.execute(
