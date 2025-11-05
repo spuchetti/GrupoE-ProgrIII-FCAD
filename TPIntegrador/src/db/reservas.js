@@ -43,10 +43,10 @@ export default class Reservas {
     return results[0][0] || null;
   };
 
-  // CREATE - Crear nueva reserva (BIEN ASÍ)
+  // CREATE - Crear nueva reserva
   crear = async (nuevaReserva) => {
     const [result] = await conexion.execute(
-      "CALL sp_crear_reserva(?, ?, ?, ?, ?, ?, ?)",
+      "CALL sp_crear_reserva(?, ?, ?, ?, ?, ?)",
       [
         nuevaReserva.fecha_reserva,
         nuevaReserva.salon_id,
@@ -54,7 +54,6 @@ export default class Reservas {
         nuevaReserva.turno_id,
         nuevaReserva.foto_cumpleaniero || null,
         nuevaReserva.tematica || null,
-        nuevaReserva.servicios ? JSON.stringify(nuevaReserva.servicios) : null,
       ]
     );
     return this.buscarPorId(result[0][0].nueva_reserva_id);

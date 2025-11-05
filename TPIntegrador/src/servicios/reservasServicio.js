@@ -178,7 +178,6 @@ export class ReservasServicio {
       turno_id,
       foto_cumpleaniero,
       tematica,
-      servicios,
     };
 
     // CREAMOS LA RESERVA
