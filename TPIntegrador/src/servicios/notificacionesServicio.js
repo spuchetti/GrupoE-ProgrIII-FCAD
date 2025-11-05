@@ -20,11 +20,14 @@ export class NotificacionesServicio {
 
             const datosReserva = datosCorreo[0]?.[0] || {};
             const correoAdmin = datosCorreo[1]?.[0]?.correoAdmin || "";
-        
+
+            const fechaValida = datosReserva.fecha
+                ? new Date(datosReserva.fecha).toLocaleDateString("es-AR")
+                : "Fecha no disponible";
             const datos = {
-                fecha_reserva: new Date(datosReserva.fecha).toLocaleDateString("es-AR"),
-                salon: datosReserva.salon,
-                turno: datosReserva.turno,
+                fecha_reserva: fechaValida,
+                salon: datosReserva.salon || "Sin salón",
+                turno: datosReserva.turno || "Sin turno",
             };
 
             const correoHtml = template(datos);
@@ -40,7 +43,6 @@ export class NotificacionesServicio {
                 },
             });
 
-            const destinatarios = process.env.CORREOS_ADMIN;
 
             const mailOptions = {
                 from: process.env.EMAIL_USUARIO,
@@ -60,12 +62,4 @@ export class NotificacionesServicio {
             return false;
         }
     };
-
-    // OTROS TIPOS DE NOTIFICACION
-    enviarMensaje = async (datos) => {} 
-    
-    enviarWhatsapp = async (datos) => {} 
-
-    enviarNotificacionPush = async (datos) => {} 
-
 }

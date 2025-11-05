@@ -53,8 +53,6 @@ export class ReservasControlador {
         turno_id,
         foto_cumpleaniero,
         tematica,
-        importe_salon,
-        importe_total,
         servicios,
       } = req.body;
 

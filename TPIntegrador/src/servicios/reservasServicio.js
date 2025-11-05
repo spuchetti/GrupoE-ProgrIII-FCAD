@@ -115,42 +115,28 @@ export class ReservasServicio {
       throw new ErrorApp("No pudo crearse la reserva");
     }
 
-    if (Array.isArray(servicios) && servicios.length > 0) {
-      await this.reservas_servicios.crear(nuevaReserva.reserva_id, servicios);
+    
+    const reservaCompleta = await this.reservasDB.buscarPorId(
+      nuevaReserva.reserva_id
+    );
+
+    const { datosReserva, correoAdmin } = await this.reservasDB.datosParaNotificacion(
+    nuevaReserva.reserva_id
+  );
+    const datosParaNotificacion = [
+      [datosReserva], [{ correoAdmin }],
+    ];
+
+    const correoEnviado = await this.notificaciones_servicios.enviarCorreo(
+      datosParaNotificacion
+    );
+
+    if (!correoEnviado) {
+      throw new ErrorApp("No pudo enviarse la notificación por correo");
     }
+    
 
-    try {
-      const reservaCompleta = await this.reservasDB.buscarPorId(
-        nuevaReserva.reserva_id
-      );
-
-      const datosParaNotificacion = [
-        [
-          {
-            fecha: reservaCompleta.fecha_reserva,
-            salon: reservaCompleta.salon_id,
-            turno: reservaCompleta.turno_id,
-          },
-        ],
-        [
-          {
-            correoAdmin: "grupoe.progr3.fcad@gmail.com",
-          },
-        ],
-      ];
-
-      const correoEnviado = await this.notificaciones_servicios.enviarCorreo(
-        datosParaNotificacion
-      );
-
-      if (!correoEnviado) {
-        console.warn("⚠️ No se pudo enviar el correo de notificación.");
-      }
-    } catch (error) {
-      console.error("❌ Error inesperado al preparar la notificación:", error);
-    }
-
-    return this.reservasDB.buscarPorId(nuevaReserva.reserva_id);
+    return reservaCompleta;
   };
 
   actualizar = async (id, datos) => {
