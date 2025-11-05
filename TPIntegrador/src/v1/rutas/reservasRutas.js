@@ -29,6 +29,7 @@ router.get(
 
 router.get(
   "/reservas/usuarios/:usuario_id",
+  cache("2 minutes"),
   autorizarUsuarios(PERMISOS.LISTAR_RESERVAS),
   reservasControlador.buscarPorUsuario
 );

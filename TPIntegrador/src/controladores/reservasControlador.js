@@ -1,9 +1,11 @@
 import apicache from "apicache";
 import { ReservasServicio } from "../servicios/reservasServicio.js";
+import { NotificacionesServicio } from "../servicios/notificacionesServicio.js";
 
 export class ReservasControlador {
   constructor() {
     this.servicio = new ReservasServicio();
+    this.notificador = new NotificacionesServicio();
   }
 
   generarReporte = async (req, res, next) => {
@@ -11,7 +13,7 @@ export class ReservasControlador {
       const { formato } = req.params;
       const { fecha_inicio, fecha_fin, salon_id, usuario_id } = req.query;
 
-      // Pasa los filtros al servicio
+      // Se pasan los filtros al servicio
       const filtros = {
         fecha_inicio,
         fecha_fin,
@@ -66,6 +68,21 @@ export class ReservasControlador {
 
       const nuevaReserva = await this.servicio.crear(datos);
 
+      const datosCorreo = [
+        [
+          {
+            fecha: nuevaReserva.fecha_reserva,
+            salon: nuevaReserva.salon_id,
+            turno: nuevaReserva.turno_id,
+          },
+        ],
+        [
+          {
+            correoAdmin: "grupoe.progr3.fcad@gmail.com",
+          },
+        ],
+      ];
+
       apicache.clear("/api/v1/reservas");
 
       return res.status(201).json({
@@ -85,7 +102,7 @@ export class ReservasControlador {
       const reservaActualizada = await this.servicio.actualizar(id, datos);
 
       apicache.clear(`/api/v1/reservas/${id}`);
-      apicache.clear("/api/v1/reservas");
+      apicache.clear('/api/v1/reservas');
 
       return res.json({
         estado: true,
@@ -103,7 +120,7 @@ export class ReservasControlador {
       await this.servicio.eliminar(id);
 
       apicache.clear(`/api/v1/reservas/${id}`);
-      apicache.clear("/api/v1/reservas");
+      apicache.clear('/api/v1/reservas');
 
       return res.json({
         estado: true,

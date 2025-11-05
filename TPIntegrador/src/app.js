@@ -25,7 +25,7 @@ passport.use('local', estrategiaLocal);
 passport.use('jwt', estrategiaJWT);
 app.use(passport.initialize());
 
-const logs = fs.createWriteStream('./access.log', { flags: 'a' }); // 'a' para append
+const logs = fs.createWriteStream('./access.log', { flags: 'a' });
 app.use(morgan('combined')) // En consola
 app.use(morgan('common', { stream: logs })); // En el archivo
 

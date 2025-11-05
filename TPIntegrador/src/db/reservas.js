@@ -88,12 +88,15 @@ export default class Reservas {
     return result.affectedRows > 0;
   };
 
+  // Obtener datos para notificación por reserva_id
   datosParaNotificacion = async (reserva_id) => {
-    const [results] = await conexion.execute(
-      "CALL obtenerDatosNotificacion(?)",
-      [reserva_id]
-    );
-    return results[0][0] || null;
+    const [results] = await conexion.query("CALL obtenerDatosNotificacion(?)", [
+      reserva_id,
+    ]);
+    const datosReserva = results[0]?.[0] || {};
+    const correoAdmin = results[1]?.[0]?.correoAdmin || null;
+
+    return { datosReserva, correoAdmin };
   };
 
   // Reporte CSV

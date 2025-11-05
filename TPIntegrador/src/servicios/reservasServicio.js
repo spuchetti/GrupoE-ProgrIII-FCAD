@@ -39,7 +39,6 @@ export class ReservasServicio {
 
   buscarPorId = async (id) => {
     const reserva = await this.reservasDB.buscarPorId(id);
-
     if (!reserva) {
       throw new ErrorNoEncontrado("Reserva");
     }
@@ -187,19 +186,28 @@ export class ReservasServicio {
       throw new ErrorApp("No pudo crearse la reserva");
     }
 
-    await this.reservas_servicios.crear(nuevaReserva.reserva_id, servicios);
+    
+    const reservaCompleta = await this.reservasDB.buscarPorId(
+      nuevaReserva.reserva_id
+    );
 
-    try {
-      const datosParaNotificacion = await this.reservasDB.datosParaNotificacion(
-        nuevaReserva.reserva_id
-      );
+    const { datosReserva, correoAdmin } = await this.reservasDB.datosParaNotificacion(
+    nuevaReserva.reserva_id
+  );
+    const datosParaNotificacion = [
+      [datosReserva], [{ correoAdmin }],
+    ];
 
-      await this.notificaciones_servicios.enviarCorreo(datosParaNotificacion);
-    } catch (notificacionError) {
-      console.log("Advertencia: No se pudo enviar el correo.");
+    const correoEnviado = await this.notificaciones_servicios.enviarCorreo(
+      datosParaNotificacion
+    );
+
+    if (!correoEnviado) {
+      throw new ErrorApp("No pudo enviarse la notificación por correo");
     }
+    
 
-    return this.reservasDB.buscarPorId(nuevaReserva.reserva_id);
+    return reservaCompleta;
   };
 
   actualizar = async (id, datos) => {

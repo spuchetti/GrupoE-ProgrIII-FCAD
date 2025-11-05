@@ -11,7 +11,7 @@ export class SalonesControlador {
     try {
       const datos = req.body;
       const nuevoSalon = await this.servicio.crear(datos);
-      apicache.clear("/api/v1/salones");
+      apicache.clear('/api/v1/salones');
 
       return res.status(201).json({
         estado: true,
@@ -29,7 +29,7 @@ export class SalonesControlador {
       const datos = req.body;
       const actualizado = await this.servicio.actualizar(id, datos);
       apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear("/api/v1/salones");
+      apicache.clear('/api/v1/salones');
 
       return res.json({
         estado: true,
@@ -46,7 +46,7 @@ export class SalonesControlador {
       const { id } = req.params;
       await this.servicio.eliminar(id);
       apicache.clear(`/api/v1/salones/${id}`);
-      apicache.clear("/api/v1/salones");
+      apicache.clear('/api/v1/salones');
 
       return res.json({
         estado: true,
@@ -83,4 +83,3 @@ export class SalonesControlador {
     }
   };
 };
-

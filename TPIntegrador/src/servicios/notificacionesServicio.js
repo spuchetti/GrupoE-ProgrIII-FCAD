@@ -9,57 +9,57 @@ dotenv.config();
 
 export class NotificacionesServicio {
 
-    enviarCorreo = async (datosCorreo) => {        
-        const __filename = fileURLToPath(import.meta.url);
-        const __dirname = path.dirname(__filename);
-        const plantillaPath = path.join(__dirname, './utiles/handlebars/plantilla.hbs');
-        const plantilla = fs.readFileSync(plantillaPath, 'utf-8');
+    enviarCorreo = async (datosCorreo) => {  
+        try {
+            const __filename = fileURLToPath(import.meta.url);
+            const __dirname = path.dirname(__filename);
+            const plantillaPath = path.join(__dirname, '../utiles/handlebars/plantilla.hbs');
+            const plantilla = fs.readFileSync(plantillaPath, 'utf-8');
 
-        const template = handlebars.compile(plantilla);
-        
-        const datos = {
-            fecha: datosCorreo[0].map(a => a.fecha),
-            salon: datosCorreo[0].map(a => a.salon),
-            turno: datosCorreo[0].map(a => a.turno)
-        };
+            const template = handlebars.compile(plantilla);
 
-        const correoHtml = template(datos);
+            const datosReserva = datosCorreo[0]?.[0] || {};
+            const correoAdmin = datosCorreo[1]?.[0]?.correoAdmin || "";
+
+            const fechaValida = datosReserva.fecha
+                ? new Date(datosReserva.fecha).toLocaleDateString("es-AR")
+                : "Fecha no disponible";
+            const datos = {
+                fecha_reserva: fechaValida,
+                salon: datosReserva.salon || "Sin salón",
+                turno: datosReserva.turno || "Sin turno",
+            };
+
+            const correoHtml = template(datos);
         
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
                 user: process.env.EMAIL_USUARIO,
                 pass: process.env.EMAIL_CLAVE
-            }
-        });
+                },
+                tls: {
+                    rejectUnauthorized: false,
+                },
+            });
 
-        // CORREOS DE LOS ADMINISTRADORES
-        const correosAdmin = datosCorreo[1].map(a => a.correoAdmin);
-        // SEPARO POR COMA PARA AGREGAR A LAS OPCIONES DEL ENVIO
-        const destinatarios = correosAdmin.join(', ');
 
-        const mailOptions = {
-            from: process.env.CORREO,
-            to: destinatarios,
-            // cc: clientes/admin COMPLETAR TAREA
-            subject: "Nueva Reserva",
-            html: correoHtml
-        };
+            const mailOptions = {
+                from: process.env.EMAIL_USUARIO,
+                to: `${process.env.EMAIL_DESTINATARIOS},${correoAdmin}`,
+                subject: "Nueva Reserva Creada",
+                html: correoHtml,
+            };
         
-        transporter.sendMail(mailOptions, (error, info) => {
-            if(error){
-                console.log(`Error enviado el correo`, error);       
-                return false;
-            }
+            await transporter.sendMail(mailOptions);
+
+            console.log(
+                `✅ Correo enviado correctamente a: ${process.env.EMAIL_DESTINATARIOS}`
+            );
             return true;
-        });
-    }
-
-    // OTROS TIPOS DE NOTIFICACION
-    enviarMensaje = async (datos) => {} 
-    
-    enviarWhatsapp = async (datos) => {} 
-
-    enviarNotificacionPush = async (datos) => {} 
-
+            } catch (error) {
+                console.error("❌ Error al enviar el correo:", error);
+            return false;
+        }
+    };
 }
