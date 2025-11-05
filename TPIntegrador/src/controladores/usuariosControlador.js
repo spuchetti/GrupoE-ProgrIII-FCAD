@@ -10,7 +10,7 @@ export class UsuariosControlador {
     try {
       const datos = req.body;
       const nuevoUsuario = await this.servicio.crear(datos);
-      apicache.clear('/api/v1/usuarios');
+      apicache.clear("/api/v1/usuarios");
 
       return res.status(201).json({
         estado: true,
@@ -47,7 +47,7 @@ export class UsuariosControlador {
       await this.servicio.eliminar(id);
 
       apicache.clear(`/api/v1/usuarios/${id}`);
-      apicache.clear('/api/v1/usuarios');
+      apicache.clear("/api/v1/usuarios");
 
       return res.json({
         estado: true,

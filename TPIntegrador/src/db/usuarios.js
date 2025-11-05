@@ -10,10 +10,9 @@ export default class Usuarios {
     return results[0] || null;
   };
 
-  // (para JWT)
+  // (para JWT) 
   buscarPorId = async (usuario_id) => {
-    
-    const sql = `SELECT usuario_id, nombre, tipo_usuario
+    const sql = `SELECT usuario_id, nombre, tipo_usuario, modificado
                  FROM usuarios 
                  WHERE usuario_id = ? AND activo = 1 LIMIT 1`;
 
@@ -42,6 +41,26 @@ export default class Usuarios {
 
     const sql = `UPDATE usuarios SET ${setCampos} WHERE usuario_id = ? AND activo = 1`;
     const [result] = await conexion.execute(sql, parametros);
+
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return this.buscarPorId(usuario_id);
+  };
+
+  // Buscar usuario por nombre_usuario (email)
+  buscarPorNombreUsuario = async (nombre_usuario) => {
+    const sql = `SELECT * FROM usuarios WHERE nombre_usuario = ? AND activo = 1 LIMIT 1`;
+    const [results] = await conexion.execute(sql, [nombre_usuario]);
+    return results[0] || null;
+  };
+
+  // Actualizar solo la contraseña (utiliza SHA2 como el resto del proyecto)
+  actualizarContrasenia = async (usuario_id, contrasenia) => {
+    // También actualizamos 'modificado' para invalidar tokens anteriores inmediatamente
+    const sql = `UPDATE usuarios SET contrasenia = SHA2(?, 256), modificado = NOW() WHERE usuario_id = ? AND activo = 1`;
+    const [result] = await conexion.execute(sql, [contrasenia, usuario_id]);
 
     if (result.affectedRows === 0) {
       return null;

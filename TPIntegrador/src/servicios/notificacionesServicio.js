@@ -62,4 +62,35 @@ export class NotificacionesServicio {
 
     enviarNotificacionPush = async (datos) => {} 
 
+    // Envío de correo simple para restablecimiento de contraseña
+    enviarCorreoRestablecimiento = async (email, link) => {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USUARIO,
+                pass: process.env.EMAIL_CLAVE
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.CORREO,
+            to: email,
+            subject: 'Restablecimiento de contraseña',
+            html: `<p>Hemos recibido una solicitud para restablecer la contraseña de su cuenta.</p>
+                   <p>Haga click en el siguiente enlace para establecer una nueva contraseña (válido por 1 hora):</p>
+                   <p><a href="${link}">Restablecer contraseña</a></p>
+                   <p>Si no solicitó este cambio, puede ignorar este correo.</p>`
+        };
+
+        return new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error enviando correo restablecimiento:', error);
+                    return reject(error);
+                }
+                resolve(info);
+            });
+        });
+    }
+
 }

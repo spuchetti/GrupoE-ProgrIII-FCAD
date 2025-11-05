@@ -1,1 +1,25 @@
- 
+ ::ffff:127.0.0.1 - - [04/Nov/2025:02:31:06 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:37 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:39 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:39 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:39 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:40 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:40 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:40 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:40 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:40 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:41 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:51 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:34:54 +0000] "POST /v1/auth/solicitar-restablecer HTTP/1.1" 404 96
+::ffff:127.0.0.1 - - [04/Nov/2025:02:47:18 +0000] "GET /v1/salones HTTP/1.1" 404 77
+::ffff:127.0.0.1 - - [04/Nov/2025:02:50:25 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
+::ffff:127.0.0.1 - - [04/Nov/2025:02:52:16 +0000] "GET / HTTP/1.1" 404 67
+::ffff:127.0.0.1 - - [04/Nov/2025:02:52:16 +0000] "GET /favicon.ico HTTP/1.1" 404 78
+::ffff:127.0.0.1 - - [05/Nov/2025:00:22:51 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
+::ffff:127.0.0.1 - - [05/Nov/2025:00:23:18 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNFQwMToxNTo1Ny4wMDBaIiwiaWF0IjoxNzYyMzAyMTcwLCJleHAiOjE3NjIzMDU3NzB9.7msXCLLnL1ox9Xe8_WybK25PjRRtiJkjo5Libehrz5w HTTP/1.1" 200 6238
+::ffff:127.0.0.1 - - [05/Nov/2025:00:23:18 +0000] "GET /favicon.ico HTTP/1.1" 404 78
+::ffff:127.0.0.1 - - [05/Nov/2025:00:23:47 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 500 71
+::ffff:127.0.0.1 - - [05/Nov/2025:00:23:59 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 500 71
+::ffff:127.0.0.1 - - [05/Nov/2025:00:28:00 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
+::ffff:127.0.0.1 - - [05/Nov/2025:00:28:18 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNFQwMToxNTo1Ny4wMDBaIiwiaWF0IjoxNzYyMzAyNDc4LCJleHAiOjE3NjIzMDYwNzh9.ok4T0rrnx3rTg1OCN9AfZwA8VKj6W7eK5Dl1YVkSGhI HTTP/1.1" 200 6238
+::ffff:127.0.0.1 - - [05/Nov/2025:00:28:27 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 200 51
