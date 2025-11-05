@@ -165,7 +165,7 @@ export const validarActualizarReserva = [
   manejarResultadosValidacion,
 ];
 
-// Validación específica para servicios
+// Validación específica para servicios (si quieres usarla por separado)
 export const validarServiciosEnReserva = [
   body("servicios")
     .isArray({ min: 1 })

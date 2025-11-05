@@ -10,7 +10,7 @@ export class ServiciosControlador {
     try {
       const datos = req.body;
       const nuevoServicio = await this.servicio.crear(datos);
-      apicache.clear('/api/v1/servicios');
+      apicache.clear("/api/v1/servicios");
 
       return res.status(201).json({
         estado: true,
@@ -29,7 +29,7 @@ export class ServiciosControlador {
       const servicioActualizado = await this.servicio.actualizar(id, datos);
 
       apicache.clear(`/api/v1/servicios/${id}`);
-      apicache.clear('/api/v1/servicios');
+      apicache.clear("/api/v1/servicios");
 
       return res.json({
         estado: true,
@@ -47,7 +47,7 @@ export class ServiciosControlador {
       await this.servicio.eliminar(id);
 
       apicache.clear(`/api/v1/servicios/${id}`);
-      apicache.clear('/api/v1/servicios');
+      apicache.clear("/api/v1/servicios");
 
       return res.json({
         estado: true,

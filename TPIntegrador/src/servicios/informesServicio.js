@@ -4,166 +4,83 @@ import handlebars from "handlebars";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { formatearMoneda, formatearFecha } from "../helpers/formatoHelpers.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export class InformeServicio {
-  informeReservasCsv = async (datosReporte) => {
-    try {
-      let ruta = path.resolve(__dirname, "../utiles");
 
-      if (!fs.existsSync(ruta)) {
-        fs.mkdirSync(ruta, { recursive: true });
+  // Configura los helpers para las plantillas Handlebars
+  configurarHelpersHandlebars() {
+    // Helper para formatear dinero
+    handlebars.registerHelper("formatearMoneda", function (monto) {
+      return formatearMoneda(monto);
+    });
+
+    // Helper para sumar los servicios
+    handlebars.registerHelper("sumarServicios", function (arrayServicios) {
+      if (!arrayServicios || !Array.isArray(arrayServicios)) {
+        return formatearMoneda(0);
       }
+      const totalServicios = arrayServicios.reduce(
+        (acumulador, servicio) => acumulador + (servicio.importe || 0),
+        0
+      );
+      return formatearMoneda(totalServicios);
+    });
 
-      ruta = path.join(ruta, `reservas_${Date.now()}.csv`);
+    // Helper para formatear las fechas
+    handlebars.registerHelper("formatearFecha", function (cadenaFecha) {
+      return formatearFecha(cadenaFecha);
+    });
 
-      const csvWriter = createObjectCsvWriter({
-        path: ruta,
-        header: [
-          { id: "reserva_id", title: "ID Reserva" },
-          { id: "fecha_reserva", title: "Fecha Reserva" },
-          { id: "salon_nombre", title: "Salón" },
-          { id: "usuario_nombre", title: "Usuario" },
-          { id: "turno_descripcion", title: "Turno" },
-          { id: "tematica", title: "Temática" },
-          { id: "importe_total", title: "Importe Total" },
-          { id: "servicios", title: "Servicios" },
-        ],
-        encoding: "utf8",
-        fieldDelimiter: ",",
-        alwaysQuote: true,
-      });
+    // Helper para el total general de la plantilla
+    handlebars.registerHelper("formatMoney", function (monto) {
+      return formatearMoneda(monto);
+    });
+  }
 
-      // Formatea datos mapeando los campos del SP
-      const datosFormateados = datosReporte.map((reserva) => {
-        // Formatea fecha
-        const fechaFormateada = reserva.fecha_reserva
-          ? new Date(reserva.fecha_reserva).toLocaleDateString("es-ES", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })
-          : "N/A";
-
-        // Mapea campos del SP a los campos esperados por el CSV
-        const salonNombre = reserva.salon_titulo || "N/A";
-        const usuarioNombre =
-          reserva.usuario_nombre_completo || reserva.nombre_usuario || "N/A";
-
-        // Formatea turno (hora_desde - hora_hasta)
-        const turnoDescripcion =
-          reserva.hora_desde && reserva.hora_hasta
-            ? `${reserva.hora_desde} - ${reserva.hora_hasta}`
-            : "N/A";
-
-        const tematica = reserva.tematica || "Sin temática";
-
-        // Convierte en una sola cadena sin separadores
-        let serviciosTexto = "Sin servicios";
-        if (reserva.servicios_contratados) {
-    
-          serviciosTexto = reserva.servicios_contratados
-            .replace(/;\s*/g, " - ") // Cambia ; por ,
-            .trim();
-        }
-
-        // Formatea importe
-        const importeTotal = reserva.importe_total
-          ? `$${parseFloat(reserva.importe_total).toFixed(2)}`
-          : "$0.00";
-
-        return {
-          reserva_id: reserva.reserva_id,
-          fecha_reserva: fechaFormateada,
-          salon_nombre: salonNombre,
-          usuario_nombre: usuarioNombre,
-          turno_descripcion: turnoDescripcion,
-          tematica: tematica,
-          importe_total: importeTotal,
-          servicios: serviciosTexto,
-        };
-      });
-
-      await csvWriter.writeRecords(datosFormateados);
-
-      // Lee el archivo y agregar BOM UTF-8 manualmente para Excel
-      const fileContent = fs.readFileSync(ruta, "utf8");
-      const contentWithBOM = "\uFEFF" + fileContent;
-      fs.writeFileSync(ruta, contentWithBOM, "utf8");
-
-      return ruta;
-    } catch (error) {
-      console.error(`Error generando CSV: ${error}`);
-      throw error;
-    }
-  };
-
-
-  informeReservasPdf = async (datosReporte) => {
+  informeReservasPdf = async (datosProcesados) => {
     try {
-      const plantillaPath = path.join(
+      const rutaPlantilla = path.join(
         __dirname,
         "../utiles/handlebars/informe.hbs"
       );
 
-      if (!fs.existsSync(plantillaPath)) {
-        throw new Error("Plantilla para PDF no encontrada");
+      if (!fs.existsSync(rutaPlantilla)) {
+        throw new Error("No se encontró la plantilla para el PDF");
       }
 
-      const plantillaHtml = fs.readFileSync(plantillaPath, "utf8");
+      const contenidoPlantilla = fs.readFileSync(rutaPlantilla, "utf8");
 
-      // Registra el helper para formatear fechas
-      handlebars.registerHelper("formatDate", function (dateString) {
-        if (!dateString) return "N/A";
-        const date = new Date(dateString);
-        return date.toLocaleDateString("es-ES", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        });
+      // Configura todos los helpers de Handlebars
+      this.configurarHelpersHandlebars();
+
+      const compilarPlantilla = handlebars.compile(contenidoPlantilla);
+
+      const totalGeneral = datosProcesados.reduce(
+        (acumulador, reserva) =>
+          acumulador + (parseFloat(reserva.importe_total_calculado) || 0),
+        0
+      );
+
+      const htmlFinal = compilarPlantilla({
+        reservas: datosProcesados,
+        fechaGeneracion: formatearFecha(new Date(), true),
+        totalRegistros: datosProcesados.length,
+        totalGeneral: totalGeneral,
       });
 
-      const template = handlebars.compile(plantillaHtml);
-
-      // Formatea los datos mapeando los campos del SP
-      const datosFormateados = datosReporte.map((reserva) => ({
-        reserva_id: reserva.reserva_id,
-        fecha_reserva: handlebars.helpers.formatDate(reserva.fecha_reserva),
-        // Mapea los campos del SP
-        salon_nombre: reserva.salon_titulo || "N/A",
-        usuario_nombre: reserva.usuario_nombre_completo || "N/A",
-        turno_descripcion:
-          reserva.hora_desde && reserva.hora_hasta
-            ? `${reserva.hora_desde} - ${reserva.hora_hasta}`
-            : "N/A",
-        tematica: reserva.tematica || "Sin temática",
-        importe_total: reserva.importe_total
-          ? `${parseFloat(reserva.importe_total).toFixed(2)}`
-          : "0.00",
-        servicios: reserva.servicios_contratados || "Sin servicios",
-      }));
-
-      const htmlFinal = template({
-        reservas: datosFormateados,
-        fechaGeneracion: new Date().toLocaleDateString("es-ES", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-        totalRegistros: datosFormateados.length,
-      });
-
-      const browser = await puppeteer.launch({
+      const navegador = await puppeteer.launch({
         headless: true,
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
       });
 
-      const page = await browser.newPage();
-      await page.setContent(htmlFinal);
+      const pagina = await navegador.newPage();
+      await pagina.setContent(htmlFinal);
 
-      const buffer = await page.pdf({
+      const bufferPdf = await pagina.pdf({
         format: "A4",
         printBackground: true,
         margin: {
@@ -174,10 +91,66 @@ export class InformeServicio {
         },
       });
 
-      await browser.close();
-      return buffer;
+      await navegador.close();
+      return bufferPdf;
     } catch (error) {
-      console.error("Error generando el PDF:", error);
+      console.error("Error al generar el PDF:", error);
+      throw error;
+    }
+  };
+
+  informeReservasCsv = async (datosProcesados) => {
+    try {
+      let directorioBase = path.resolve(__dirname, "../utiles");
+
+      if (!fs.existsSync(directorioBase)) {
+        fs.mkdirSync(directorioBase, { recursive: true });
+      }
+
+      const rutaArchivo = path.join(
+        directorioBase,
+        `reservas_${Date.now()}.csv`
+      );
+
+      const escritorCsv = createObjectCsvWriter({
+        path: rutaArchivo,
+        header: [
+          { id: "reserva_id", title: "ID Reserva" },
+          { id: "fecha_formateada", title: "Fecha Reserva" },
+          { id: "salon_nombre", title: "Salón" },
+          { id: "usuario_nombre", title: "Cliente" },
+          { id: "turno_formateado", title: "Turno" },
+          { id: "tematica", title: "Temática" },
+          { id: "importe_total_formateado", title: "Importe Total" },
+          { id: "servicios_csv", title: "Servicios" },
+        ],
+        encoding: "utf8",
+        fieldDelimiter: ",",
+        alwaysQuote: true,
+      });
+
+      // Prepara los datos para CSV
+      const datosParaCsv = datosProcesados.map((reserva) => ({
+        reserva_id: reserva.reserva_id,
+        fecha_formateada: reserva.fecha_formateada,
+        salon_nombre: reserva.salon_nombre,
+        usuario_nombre: reserva.usuario_nombre,
+        turno_formateado: reserva.turno_formateado,
+        tematica: reserva.tematica || "Sin temática",
+        importe_total_formateado: reserva.importe_total_formateado,
+        servicios_csv: reserva.servicios_csv,
+      }));
+
+      await escritorCsv.writeRecords(datosParaCsv);
+
+      // Agrega BOM UTF-8 para compatibilidad con Excel
+      const contenidoArchivo = fs.readFileSync(rutaArchivo, "utf8");
+      const contenidoConBOM = "\uFEFF" + contenidoArchivo;
+      fs.writeFileSync(rutaArchivo, contenidoConBOM, "utf8");
+
+      return rutaArchivo;
+    } catch (error) {
+      console.error(`Error al generar el CSV: ${error}`);
       throw error;
     }
   };

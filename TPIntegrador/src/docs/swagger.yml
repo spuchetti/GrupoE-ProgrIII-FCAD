@@ -1420,6 +1420,7 @@ components:
               mensaje:
                 type: string
                 example: "Recurso no encontrado"
+
 tags:
   - name: Autenticación
     description: Endpoints con autenticación JWT
