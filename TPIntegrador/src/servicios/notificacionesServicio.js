@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import handlebars from 'handlebars';
-
+import { obtenerTipoUsuario } from '../helpers/formatoHelpers.js'
 dotenv.config();
 
 export class NotificacionesServicio {
@@ -26,8 +26,10 @@ export class NotificacionesServicio {
                 : "Fecha no disponible";
             const datos = {
                 fecha_reserva: fechaValida,
-                salon: datosReserva.salon || "Sin salón",
-                turno: datosReserva.turno || "Sin turno",
+                salon: datosReserva.salon,
+                turno: datosReserva.turno,
+                creado_por: datosReserva?.nombre_completo,
+                tipo_creador: obtenerTipoUsuario(datosReserva?.tipo_usuario_reserva)
             };
 
             const correoHtml = template(datos);

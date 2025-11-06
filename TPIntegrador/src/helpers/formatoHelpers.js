@@ -44,3 +44,13 @@ export const formatearHora = (hora) => {
     const [horas, minutos] = hora.split(':');
     return `${horas}:${minutos}`;
 };
+
+// Obtiene el rol segun el tipo de usuario
+export const obtenerTipoUsuario = (tipo) => {
+        const tipos = {
+            1: "Administrador",
+            2: "Empleado", 
+            3: "Cliente"
+        };
+        return tipos[tipo];
+    };

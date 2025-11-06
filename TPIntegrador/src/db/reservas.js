@@ -90,7 +90,7 @@ export default class Reservas {
 
   // Obtener datos para notificación por reserva_id
   datosParaNotificacion = async (reserva_id) => {
-    const [results] = await conexion.query("CALL obtenerDatosNotificacion(?)", [
+    const [results] = await conexion.query("CALL sp_obtenerDatosNotificacion(?)", [
       reserva_id,
     ]);
     const datosReserva = results[0]?.[0] || {};
