@@ -6,7 +6,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_crear_reserva`(
     IN p_turno_id INT,
     IN p_foto_cumpleaniero VARCHAR(255),
     IN p_tematica VARCHAR(255)
-    -- QUITAR p_servicios del parámetro
 )
 BEGIN
     DECLARE v_importe_salon DECIMAL(10,2);
@@ -243,14 +242,15 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_obtenerDatosNotificacion`(IN p_reserva_id INT)
 BEGIN
-    --  Datos de la reserva y del usuario que la hizo (INCLUYENDO EMAIL)
+    -- 1️⃣ Datos de la reserva y del usuario que la hizo (INCLUYENDO EMAIL)
     SELECT 
         r.fecha_reserva AS fecha,
         s.titulo AS salon,
         CONCAT(t.orden, ' - ', TIME_FORMAT(t.hora_desde, '%H:%i'), ' a ', TIME_FORMAT(t.hora_hasta, '%H:%i')) AS turno,
-        u.nombre_usuario AS usuario,
+        u.nombre_usuario AS usuario_creador,
         CONCAT(u.nombre, ' ', u.apellido) AS nombre_completo,
         u.tipo_usuario AS tipo_usuario_reserva
     FROM reservas r
@@ -273,4 +273,5 @@ BEGIN
     */
     
 END$$
+
 DELIMITER ;
