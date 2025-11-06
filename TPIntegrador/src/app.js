@@ -13,6 +13,8 @@ import { router as v1UsuariosRutas } from './v1/rutas/usuariosRutas.js';
 import { router as v1ReservasRutas } from './v1/rutas/reservasRutas.js';
 import { manejadorErrores, rutaNoEncontrada } from './middleware/manejadorErrores.js';
 import { estrategiaLocal, estrategiaJWT } from './config/passport.js';
+import path from "path";
+import { fileURLToPath } from "url";
 
 
 dotenv.config(); // Cargamos las variables de entorno
@@ -21,9 +23,14 @@ dotenv.config(); // Cargamos las variables de entorno
 const app = express();
 app.use(express.json());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 passport.use('local', estrategiaLocal);
 passport.use('jwt', estrategiaJWT);
 app.use(passport.initialize());
+app.use(express.static(path.join(__dirname, './public')));
 
 const logs = fs.createWriteStream('./access.log', { flags: 'a' });
 app.use(morgan('combined')) // En consola
@@ -39,6 +46,11 @@ app.get('/api/estado', (req, res) => {
     version: '1.0.0',
     entorno: 'development'
   });
+});
+
+// Ruta para el dashboard
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/utiles/dashboard.html'));
 });
 
 
