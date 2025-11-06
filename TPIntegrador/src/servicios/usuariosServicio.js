@@ -1,10 +1,11 @@
 import Usuarios from "../db/usuarios.js";
 import { ErrorNoEncontrado, ErrorApp } from "../errores/ErrorApp.js";
-import jwt from "jsonwebtoken";
+import { TokenServicio } from "./tokenServicio.js";
 
 export class UsuariosServicio {
   constructor() {
     this.usuariosDB = new Usuarios();
+    this.tokenServicio = new TokenServicio();
   }
 
   buscar = async(nombre_usuario, contrasenia) => {
@@ -35,14 +36,7 @@ export class UsuariosServicio {
 
   // Genera un token JWT para restablecimiento que incluye el timestamp de modificacion
   generarTokenRestablecimiento = (usuario) => {
-    const payload = {
-      usuario_id: usuario.usuario_id,
-      // Guardamos el valor de 'modificado' como ISO string para luego verificar unicidad/uso
-      modificado: usuario.modificado ? new Date(usuario.modificado).toISOString() : null,
-    };
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-    return token;
+    return this.tokenServicio.generarTokenReset(usuario);
   };
 
   // Solicita restablecimiento: si existe usuario, devuelve token (no hace cambios en DB)
@@ -58,12 +52,7 @@ export class UsuariosServicio {
 
   // Resetear contraseña usando token JWT (sin crear tablas). Verifica que el campo 'modificado' coincida
   resetearContrasenia = async (token, nuevaContrasenia) => {
-    let tokenVerificado;
-    try {
-      tokenVerificado = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (err) {
-      throw new ErrorApp("Token inválido o expirado");
-    }
+    const tokenVerificado = this.tokenServicio.verificarToken(token);
 
     const usuario = await this.usuariosDB.buscarPorId(tokenVerificado.usuario_id);
     if (!usuario) {

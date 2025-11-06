@@ -23,3 +23,13 @@
 ::ffff:127.0.0.1 - - [05/Nov/2025:00:28:00 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
 ::ffff:127.0.0.1 - - [05/Nov/2025:00:28:18 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNFQwMToxNTo1Ny4wMDBaIiwiaWF0IjoxNzYyMzAyNDc4LCJleHAiOjE3NjIzMDYwNzh9.ok4T0rrnx3rTg1OCN9AfZwA8VKj6W7eK5Dl1YVkSGhI HTTP/1.1" 200 6238
 ::ffff:127.0.0.1 - - [05/Nov/2025:00:28:27 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 200 51
+::1 - - [06/Nov/2025:00:59:16 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
+::ffff:127.0.0.1 - - [06/Nov/2025:00:59:51 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNVQwMDoyODoyNy4wMDBaIiwiaWF0IjoxNzYyMzkwNzU0LCJleHAiOjE3NjIzOTQzNTR9.2PyL50xXhTmm3ifTVhuFiCg3WUc5PPMC9wLbN6XI-Yk HTTP/1.1" 200 5350
+::ffff:127.0.0.1 - - [06/Nov/2025:01:00:14 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 200 51
+::ffff:127.0.0.1 - - [06/Nov/2025:01:09:17 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNVQwMDoyODoyNy4wMDBaIiwiaWF0IjoxNzYyMzkwNzU0LCJleHAiOjE3NjIzOTQzNTR9.2PyL50xXhTmm3ifTVhuFiCg3WUc5PPMC9wLbN6XI-Yk HTTP/1.1" 200 5645
+::ffff:127.0.0.1 - - [06/Nov/2025:01:09:26 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 500 71
+::ffff:127.0.0.1 - - [06/Nov/2025:01:09:30 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNVQwMDoyODoyNy4wMDBaIiwiaWF0IjoxNzYyMzkwNzU0LCJleHAiOjE3NjIzOTQzNTR9.2PyL50xXhTmm3ifTVhuFiCg3WUc5PPMC9wLbN6XI-Yk HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [06/Nov/2025:01:09:34 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 500 71
+::1 - - [06/Nov/2025:01:09:58 +0000] "POST /api/v1/auth/solicitar-restablecer HTTP/1.1" 200 99
+::ffff:127.0.0.1 - - [06/Nov/2025:01:10:05 +0000] "GET /api/v1/auth/restablecer?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo4LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNlQwMTowMDoxNC4wMDBaIiwiaWF0IjoxNzYyMzkxMzk2LCJleHAiOjE3NjIzOTQ5OTZ9.Ruwaz_m9oH-Rg6haZW3zSBFKDpwAlKVULYtVkCvA0DQ HTTP/1.1" 200 5645
+::ffff:127.0.0.1 - - [06/Nov/2025:01:10:09 +0000] "POST /api/v1/auth/restablecer-contrasenia HTTP/1.1" 200 51
