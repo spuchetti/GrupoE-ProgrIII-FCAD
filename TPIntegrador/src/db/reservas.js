@@ -88,7 +88,7 @@ export default class Reservas {
     return result.affectedRows > 0;
   };
 
-  // Obtener datos para notificación por reserva_id
+  // Obtenemos los datos para notificación por reserva_id
   datosParaNotificacion = async (reserva_id) => {
     const [results] = await conexion.query("CALL sp_obtenerDatosNotificacion(?)", [
       reserva_id,

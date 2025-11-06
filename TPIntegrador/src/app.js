@@ -42,6 +42,7 @@ app.get('/api/estado', (req, res) => {
 });
 
 
+
 app.use('/api/v1', v1AuthRutas);
 app.use('/api/v1', v1SalonesRutas);
 app.use('/api/v1', v1ServiciosRutas);

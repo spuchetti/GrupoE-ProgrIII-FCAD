@@ -68,21 +68,6 @@ export class ReservasControlador {
 
       const nuevaReserva = await this.servicio.crear(datos);
 
-      const datosCorreo = [
-        [
-          {
-            fecha: nuevaReserva.fecha_reserva,
-            salon: nuevaReserva.salon_id,
-            turno: nuevaReserva.turno_id,
-          },
-        ],
-        [
-          {
-            correoAdmin: "grupoe.progr3.fcad@gmail.com",
-          },
-        ],
-      ];
-
       apicache.clear("/api/v1/reservas");
 
       return res.status(201).json({
