@@ -100,13 +100,11 @@ export class ReservasServicio {
             }
         }
 
-        // Calcular importes CORREGIDOS - usando salon_importe_base del SP
         const importeSalon = parseFloat(reserva.salon_importe_base) || 0;
         const importeServicios = serviciosArray.reduce((total, servicio) => total + (servicio.importe || 0), 0);
         const importeTotal = importeSalon + importeServicios;
 
         return {
-            // Datos originales del SP
             ...reserva,
 
             // Datos procesados para PDF
@@ -179,13 +177,14 @@ export class ReservasServicio {
       tematica,
     };
 
-    // CREAMOS LA RESERVA
+    
     const nuevaReserva = await this.reservasDB.crear(datosNuevaReserva);
 
     if (!nuevaReserva) {
       throw new ErrorApp("No pudo crearse la reserva");
     }
 
+    await this.reservas_servicios.crear(nuevaReserva.reserva_id, servicios);
     
     const reservaCompleta = await this.reservasDB.buscarPorId(
       nuevaReserva.reserva_id

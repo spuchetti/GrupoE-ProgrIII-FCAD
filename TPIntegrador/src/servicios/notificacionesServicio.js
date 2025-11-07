@@ -59,7 +59,7 @@ export class NotificacionesServicio {
       const mailOptions = {
         from: process.env.EMAIL_USUARIO,
         to: `${datosReserva.usuario_creador}, ${correoAdmin}`,
-        subject: "Nueva Reserva Creada",
+        subject: "Nueva Reserva Creada - Sistema de Salones",
         html: correoHtml,
       };
 

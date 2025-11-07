@@ -38,12 +38,7 @@ export const formatearFecha = (fecha, incluirHora = false) => {
     });
 };
 
-// Formatea horas
-export const formatearHora = (hora) => {
-    if (!hora) return "N/A";
-    const [horas, minutos] = hora.split(':');
-    return `${horas}:${minutos}`;
-};
+
 
 // Obtiene el rol segun el tipo de usuario
 export const obtenerTipoUsuario = (tipo) => {
