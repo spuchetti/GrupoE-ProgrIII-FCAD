@@ -79,6 +79,7 @@ export class AuthControlador {
         estado: true,
         mensaje:
           "Si existe la cuenta, se envió un email para restablecer la contraseña",
+        token: resultado.token
       });
     } catch (err) {
       console.error("❌ Error en solicitarRestablecer:", err);

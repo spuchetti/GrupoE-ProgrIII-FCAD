@@ -17,7 +17,7 @@ servers:
     description: Servidor local
 
 paths:
-  /api/v1/login:
+  /api/v1/auth/login:
     post:
       tags:
         - Autenticación
