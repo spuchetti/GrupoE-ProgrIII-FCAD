@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Restablecimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .mensaje.exito {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensaje.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🔐 Restablecer Contraseña</h1>
+        </div>
+
+        <p>Ingresa tu email para recibir un enlace de restablecimiento</p>
+
+        <div class="back-link">
+            <a href="/api/v1/auth/login">← Volver al inicio de sesión</a>
+        </div>
+
+        <form id="formSolicitar">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="tu@email.com">
+            </div>
+
+            <button type="submit" id="btnSolicitar">Enviar Enlace</button>
+        </form>
+
+        <div id="mensaje" class="mensaje"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('formSolicitar');
+        const btnSolicitar = document.getElementById('btnSolicitar');
+        const mensaje = document.getElementById('mensaje');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+
+            if (!email || !email.includes('@')) {
+                mostrarMensaje('Por favor, ingresa un email válido', 'error');
+                return;
+            }
+
+            btnSolicitar.disabled = true;
+            btnSolicitar.textContent = 'Enviando...';
+
+            try {
+                console.log('Enviando solicitud para:', email);
+
+                const response = await fetch('/api/v1/auth/solicitar-restablecer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nombre_usuario: email
+                    })
+                });
+
+                console.log('Respuesta recibida, status:', response.status);
+
+                let data;
+                try {
+                    data = await response.json();
+                    console.log('Datos recibidos:', data);
+                } catch (parseError) {
+                    console.error('Error parseando JSON:', parseError);
+                    throw new Error('Respuesta inválida del servidor');
+                }
+
+                if (response.ok && data.estado) {
+                    mostrarMensaje('✅ Se ha enviado un enlace de restablecimiento a tu email. Revisa tu bandeja de entrada.', 'exito');
+                    form.reset();
+                    btnSolicitar.disabled = true;
+                    btnSolicitar.textContent = 'Enlace Enviado';
+
+                    // Redirige al login después de 6 segundos
+                    setTimeout(() => {
+                        window.location.href = '/api/v1/auth/login';
+                    }, 6000);
+                } else {
+                    mostrarMensaje(data.mensaje || 'Error al procesar la solicitud', 'error');
+                    btnSolicitar.disabled = false;
+                    btnSolicitar.textContent = 'Enviar Enlace';
+                }
+            } catch (error) {
+                console.error('Error completo:', error);
+                mostrarMensaje('Error de conexión. Intenta nuevamente. Detalle: ' + error.message, 'error');
+                btnSolicitar.disabled = false;
+                btnSolicitar.textContent = 'Enviar Enlace';
+            }
+        });
+
+        function mostrarMensaje(texto, tipo) {
+            mensaje.textContent = texto;
+            mensaje.className = 'mensaje ' + tipo;
+            mensaje.style.display = 'block';
+
+            // Scroll al mensaje
+            mensaje.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+
+</html>

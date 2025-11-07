@@ -2,17 +2,83 @@ openapi: 3.0.0
 info:
   title: API de Salones de Cumpleaños
   version: 1.0.0
+<<<<<<< HEAD
   description: API para gestionar reservas y administración de salones de cumpleaños.
+=======
+  description: |
+    API completa para gestionar reservas, salones, servicios, turnos y usuarios de salones de cumpleaños.
+    
+    ### Características:
+    - Autenticación JWT
+    - Control de permisos por roles
+    - Generación de reportes PDF/CSV
+    - Notificaciones por correo
+    - Cache para optimización
+
+>>>>>>> origin/Seba
 servers:
   - url: http://localhost:3000
     description: Servidor local
 
 paths:
+<<<<<<< HEAD
   /api/v1/salones:
     get:
       tags:
       - Salones
       summary: Obtener todos los salones
+=======
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Autenticación
+      summary: Iniciar sesión
+      description: Autentica un usuario y devuelve un token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nombre_usuario
+                - contrasenia
+              properties:
+                nombre_usuario:
+                  type: string
+                  format: email
+                  example: "ejemplo@gmail.com"
+                contrasenia:
+                  type: string
+                  example: "password123"
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  usuario:
+                    $ref: '#/components/schemas/UsuarioAuth'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '401':
+          $ref: '#/components/responses/NoAutorizado'
+
+  /api/v1/salones:
+    get:
+      tags:
+        - Salones
+      summary: Obtener todos los salones
+      description: Endpoint público que devuelve todos los salones activos (con cache)
+>>>>>>> origin/Seba
       responses:
         '200':
           description: Lista de salones
@@ -21,17 +87,33 @@ paths:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
                     type: boolean
                     example: true
                   salones:
+=======
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+>>>>>>> origin/Seba
                     type: array
                     items:
                       $ref: '#/components/schemas/Salon'
     post:
+<<<<<<< HEAD
       tags:
       - Salones
       summary: Crear un nuevo salón
+=======
+      security:
+        - bearerAuth: []
+      tags:
+        - Salones
+      summary: Crear un nuevo salón
+      description: Requiere permisos CREAR_SALONES
+>>>>>>> origin/Seba
       requestBody:
         required: true
         content:
@@ -40,29 +122,61 @@ paths:
               $ref: '#/components/schemas/SalonInput'
       responses:
         '201':
+<<<<<<< HEAD
           description: Salón creado
+=======
+          description: Salón creado exitosamente
+>>>>>>> origin/Seba
           content:
             application/json:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
                     type: boolean
                     example: true
                   datos:
                     $ref: '#/components/schemas/Salon'
+=======
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Salón creado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Salon'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '401':
+          $ref: '#/components/responses/NoAutorizado'
+        '403':
+          $ref: '#/components/responses/PermisosInsuficientes'
+>>>>>>> origin/Seba
 
   /api/v1/salones/{id}:
     get:
       tags:
+<<<<<<< HEAD
       - Salones
       summary: Obtener un salón por ID
+=======
+        - Salones
+      summary: Obtener un salón por ID
+      description: Endpoint público (con cache)
+>>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+<<<<<<< HEAD
+=======
+            minimum: 1
+          example: 1
+>>>>>>> origin/Seba
       responses:
         '200':
           description: Detalle del salón
@@ -71,12 +185,17 @@ paths:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
+=======
+                  estado:
+>>>>>>> origin/Seba
                     type: boolean
                     example: true
                   datos:
                     $ref: '#/components/schemas/Salon'
         '404':
+<<<<<<< HEAD
           description: Salón no encontrado
           content:
             application/json:
@@ -93,12 +212,26 @@ paths:
       tags:
       - Salones
       summary: Actualizar un salón
+=======
+          $ref: '#/components/responses/NoEncontrado'
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Salones
+      summary: Actualizar un salón
+      description: Requiere permisos ACTUALIZAR_SALONES
+>>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+<<<<<<< HEAD
+=======
+            minimum: 1
+>>>>>>> origin/Seba
       requestBody:
         required: true
         content:
@@ -113,6 +246,7 @@ paths:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
                     type: boolean
                     example: true
@@ -135,12 +269,37 @@ paths:
       tags:
       - Salones
       summary: Eliminar un salón
+=======
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Salón actualizado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Salon'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Salones
+      summary: Eliminar un salón
+      description: Requiere permisos ELIMINAR_SALONES
+>>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+<<<<<<< HEAD
+=======
+            minimum: 1
+>>>>>>> origin/Seba
       responses:
         '200':
           description: Salón eliminado
@@ -149,19 +308,40 @@ paths:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
+=======
+                  estado:
+>>>>>>> origin/Seba
                     type: boolean
                     example: true
                   mensaje:
                     type: string
+<<<<<<< HEAD
                     example: Salón eliminado correctamente
         '404':
           description: Salón no encontrado
+=======
+                    example: "Salón eliminado correctamente"
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /api/v1/servicios:
+    get:
+      tags:
+        - Servicios
+      summary: Obtener todos los servicios
+      description: Endpoint público (con cache)
+      responses:
+        '200':
+          description: Lista de servicios
+>>>>>>> origin/Seba
           content:
             application/json:
               schema:
                 type: object
                 properties:
+<<<<<<< HEAD
                   ok:
                     type: boolean
                     example: false
@@ -171,11 +351,731 @@ paths:
 
 components:
   schemas:
+=======
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Servicio'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Servicios
+      summary: Crear un nuevo servicio
+      description: Requiere permisos CREAR_SERVICIOS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicioInput'
+      responses:
+        '201':
+          description: Servicio creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Servicio creado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Servicio'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+
+  /api/v1/servicios/{id}:
+    get:
+      tags:
+        - Servicios
+      summary: Obtener un servicio por ID
+      description: Endpoint público (con cache)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Detalle del servicio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    $ref: '#/components/schemas/Servicio'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Servicios
+      summary: Actualizar un servicio
+      description: Requiere permisos ACTUALIZAR_SERVICIOS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicioUpdate'
+      responses:
+        '200':
+          description: Servicio actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Servicio actualizado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Servicio'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Servicios
+      summary: Eliminar un servicio
+      description: Requiere permisos ELIMINAR_SERVICIOS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Servicio eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Servicio eliminado correctamente"
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /api/v1/turnos:
+    get:
+      tags:
+        - Turnos
+      summary: Obtener todos los turnos
+      description: Endpoint público (con cache)
+      responses:
+        '200':
+          description: Lista de turnos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Turno'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Turnos
+      summary: Crear un nuevo turno
+      description: Requiere permisos CREAR_TURNOS. Valida solapamiento de horarios.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnoInput'
+      responses:
+        '201':
+          description: Turno creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Turno creado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Turno'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+
+  /api/v1/turnos/{id}:
+    get:
+      tags:
+        - Turnos
+      summary: Obtener un turno por ID
+      description: Endpoint público (con cache)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Detalle del turno
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    $ref: '#/components/schemas/Turno'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Turnos
+      summary: Actualizar un turno
+      description: Requiere permisos ACTUALIZAR_TURNOS. Valida solapamiento de horarios.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurnoUpdate'
+      responses:
+        '200':
+          description: Turno actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Turno actualizado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Turno'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Turnos
+      summary: Eliminar un turno
+      description: Requiere permisos ELIMINAR_TURNOS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Turno eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Turno eliminado correctamente"
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /api/v1/reservas:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Obtener todas las reservas
+      description: Requiere permisos LISTAR_RESERVAS (con cache)
+      responses:
+        '200':
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReservaCompleta'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Crear una nueva reserva
+      description: Requiere permisos CREAR_RESERVAS. Envía notificación por correo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaInput'
+      responses:
+        '201':
+          description: Reserva creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Reserva creada correctamente"
+                  datos:
+                    $ref: '#/components/schemas/ReservaCompleta'
+
+  /api/v1/reservas/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Obtener una reserva por ID
+      description: Requiere permisos LISTAR_RESERVAS (con cache)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Detalle completo de la reserva
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    $ref: '#/components/schemas/ReservaCompleta'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Actualizar una reserva
+      description: Requiere permisos ACTUALIZAR_RESERVAS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaUpdate'
+      responses:
+        '200':
+          description: Reserva actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Reserva actualizada correctamente"
+                  datos:
+                    $ref: '#/components/schemas/ReservaCompleta'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Eliminar una reserva
+      description: Requiere permisos ELIMINAR_RESERVAS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Reserva eliminada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Reserva eliminada correctamente"
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /api/v1/reservas/usuarios/{usuario_id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reservas
+      summary: Obtener reservas por usuario
+      description: Requiere permisos LISTAR_RESERVAS
+      parameters:
+        - in: path
+          name: usuario_id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Reservas del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                  datos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReservaCompleta'
+                  total:
+                    type: integer
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+  /api/v1/reservas/reportes/{formato}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Reportes
+      summary: Generar reporte de reservas
+      description: Requiere permisos GENERAR_REPORTE. Devuelve PDF o CSV con filtros opcionales.
+      parameters:
+        - in: path
+          name: formato
+          required: true
+          schema:
+            type: string
+            enum: [pdf, csv]
+          example: "pdf"
+        - in: query
+          name: fecha_inicio
+          schema:
+            type: string
+            format: date
+          description: Fecha de inicio para filtrar (YYYY-MM-DD)
+        - in: query
+          name: fecha_fin
+          schema:
+            type: string
+            format: date
+          description: Fecha de fin para filtrar (YYYY-MM-DD)
+        - in: query
+          name: salon_id
+          schema:
+            type: integer
+            minimum: 1
+          description: ID del salón para filtrar
+        - in: query
+          name: usuario_id
+          schema:
+            type: integer
+            minimum: 1
+          description: ID del usuario para filtrar
+      responses:
+        '200':
+          description: Reporte generado exitosamente
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          description: No hay datos para generar el informe
+
+  /api/v1/usuarios:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuarios
+      summary: Obtener todos los usuarios
+      description: Requiere permisos LISTAR_USUARIOS (con cache)
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Usuario'
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuarios
+      summary: Crear un nuevo usuario
+      description: Requiere permisos CREAR_USUARIOS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioInput'
+      responses:
+        '201':
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Usuario creado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Usuario'
+
+  /api/v1/usuarios/{id}:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuarios
+      summary: Obtener un usuario por ID
+      description: Requiere permisos LISTAR_USUARIOS (con cache)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Detalle del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  datos:
+                    $ref: '#/components/schemas/Usuario'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuarios
+      summary: Actualizar un usuario
+      description: Requiere permisos ACTUALIZAR_USUARIOS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioUpdate'
+      responses:
+        '200':
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Usuario actualizado correctamente"
+                  datos:
+                    $ref: '#/components/schemas/Usuario'
+        '400':
+          $ref: '#/components/responses/ErrorValidacion'
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Usuarios
+      summary: Eliminar un usuario
+      description: Requiere permisos ELIMINAR_USUARIOS
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Usuario eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  estado:
+                    type: boolean
+                    example: true
+                  mensaje:
+                    type: string
+                    example: "Usuario eliminado correctamente"
+        '404':
+          $ref: '#/components/responses/NoEncontrado'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtenido del endpoint /login
+
+  schemas:
+    # Esquemas para Autenticación
+    UsuarioAuth:
+      type: object
+      properties:
+        usuario_id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan Pérez"
+        tipo_usuario:
+          type: integer
+          example: 1
+          description: "1=Admin, 2=Empleado, 3=Cliente"
+
+    # Esquemas para Salones
+>>>>>>> origin/Seba
     Salon:
       type: object
       properties:
         salon_id:
           type: integer
+<<<<<<< HEAD
         titulo:
           type: string
         direccion:
@@ -187,6 +1087,26 @@ components:
           format: float
         activo:
           type: boolean
+=======
+          example: 1
+        titulo:
+          type: string
+          example: "Salón Principal"
+        direccion:
+          type: string
+          example: "Av. Siempre Viva 123"
+        capacidad:
+          type: integer
+          example: 50
+        importe:
+          type: number
+          format: float
+          example: 1500.50
+        activo:
+          type: integer
+          example: 1
+
+>>>>>>> origin/Seba
     SalonInput:
       type: object
       required:
@@ -197,6 +1117,7 @@ components:
       properties:
         titulo:
           type: string
+<<<<<<< HEAD
         direccion:
           type: string
         capacidad:
@@ -204,11 +1125,32 @@ components:
         importe:
           type: number
           format: float
+=======
+          minLength: 2
+          maxLength: 100
+          example: "Salón Principal"
+        direccion:
+          type: string
+          minLength: 5
+          maxLength: 200
+          example: "Av. Siempre Viva 123"
+        capacidad:
+          type: integer
+          minimum: 1
+          example: 50
+        importe:
+          type: number
+          format: float
+          minimum: 1
+          example: 1500.50
+
+>>>>>>> origin/Seba
     SalonUpdate:
       type: object
       properties:
         titulo:
           type: string
+<<<<<<< HEAD
         direccion:
           type: string
         capacidad:
@@ -216,3 +1158,435 @@ components:
         importe:
           type: number
           format: float
+=======
+          minLength: 2
+          maxLength: 100
+          example: "Salón Principal Actualizado"
+        direccion:
+          type: string
+          minLength: 5
+          maxLength: 200
+          example: "Av. Siempre Viva 456"
+        capacidad:
+          type: integer
+          minimum: 1
+          example: 60
+        importe:
+          type: number
+          format: float
+          minimum: 1
+          example: 1600.00
+
+    # Esquemas para Servicios
+    Servicio:
+      type: object
+      properties:
+        servicio_id:
+          type: integer
+          example: 1
+        descripcion:
+          type: string
+          example: "Decoración temática"
+        importe:
+          type: number
+          format: float
+          example: 500.00
+        activo:
+          type: integer
+          example: 1
+
+    ServicioInput:
+      type: object
+      required:
+        - descripcion
+        - importe
+      properties:
+        descripcion:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: "Decoración temática completa"
+        importe:
+          type: number
+          format: float
+          minimum: 1
+          example: 500.00
+
+    ServicioUpdate:
+      type: object
+      properties:
+        descripcion:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: "Decoración temática premium"
+        importe:
+          type: number
+          format: float
+          minimum: 1
+          example: 600.00
+
+    # Esquemas para Turnos
+    Turno:
+      type: object
+      properties:
+        turno_id:
+          type: integer
+          example: 1
+        orden:
+          type: integer
+          example: 1
+        hora_desde:
+          type: string
+          example: "10:00:00"
+        hora_hasta:
+          type: string
+          example: "14:00:00"
+        activo:
+          type: integer
+          example: 1
+
+    TurnoInput:
+      type: object
+      required:
+        - hora_desde
+        - hora_hasta
+      properties:
+        hora_desde:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+          example: "10:00:00"
+        hora_hasta:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+          example: "14:00:00"
+
+    TurnoUpdate:
+      type: object
+      properties:
+        hora_desde:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+          example: "11:00:00"
+        hora_hasta:
+          type: string
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$"
+          example: "15:00:00"
+
+    # Esquemas para Reservas
+    ReservaCompleta:
+      type: object
+      properties:
+        reserva_id:
+          type: integer
+          example: 1
+        fecha_reserva:
+          type: string
+          format: date
+          example: "2024-12-25"
+        salon_id:
+          type: integer
+          example: 1
+        usuario_id:
+          type: integer
+          example: 1
+        turno_id:
+          type: integer
+          example: 1
+        foto_cumpleaniero:
+          type: string
+          nullable: true
+          example: "foto.jpg"
+        tematica:
+          type: string
+          nullable: true
+          example: "Superhéroes"
+        importe_total:
+          type: number
+          format: float
+          example: 2000.50
+        activo:
+          type: integer
+          example: 1
+        servicios:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServicioReserva'
+
+    ServicioReserva:
+      type: object
+      properties:
+        servicio_id:
+          type: integer
+          example: 1
+        descripcion:
+          type: string
+          example: "Decoración temática"
+        importe:
+          type: number
+          format: float
+          example: 500.00
+
+    ReservaInput:
+      type: object
+      required:
+        - fecha_reserva
+        - salon_id
+        - usuario_id
+        - turno_id
+        - servicios
+      properties:
+        fecha_reserva:
+          type: string
+          format: date
+          example: "2024-12-25"
+        salon_id:
+          type: integer
+          minimum: 1
+          example: 1
+        usuario_id:
+          type: integer
+          minimum: 1
+          example: 1
+        turno_id:
+          type: integer
+          minimum: 1
+          example: 1
+        foto_cumpleaniero:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: "foto.jpg"
+        tematica:
+          type: string
+          maxLength: 100
+          nullable: true
+          example: "Superhéroes"
+        servicios:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - servicio_id
+              - importe
+            properties:
+              servicio_id:
+                type: integer
+                minimum: 1
+                example: 1
+              importe:
+                type: number
+                format: float
+                minimum: 0.01
+                example: 500.00
+
+    ReservaUpdate:
+      type: object
+      properties:
+        foto_cumpleaniero:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: "nueva_foto.jpg"
+        tematica:
+          type: string
+          maxLength: 100
+          nullable: true
+          example: "Princesas"
+        importe_total:
+          type: number
+          format: float
+          minimum: 0
+          example: 2100.00
+        servicios:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - servicio_id
+              - importe
+            properties:
+              servicio_id:
+                type: integer
+                minimum: 1
+                example: 2
+              importe:
+                type: number
+                format: float
+                minimum: 0.01
+                example: 600.00
+
+    # Esquemas para Usuarios
+    Usuario:
+      type: object
+      properties:
+        usuario_id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Juan"
+        apellido:
+          type: string
+          example: "Pérez"
+        nombre_usuario:
+          type: string
+          format: email
+          example: "juan@gmail.com"
+        tipo_usuario:
+          type: integer
+          example: 1
+          description: "1=Admin, 2=Empleado, 3=Cliente"
+        activo:
+          type: integer
+          example: 1
+
+    UsuarioInput:
+      type: object
+      required:
+        - nombre
+        - apellido
+        - nombre_usuario
+        - contrasenia
+        - tipo_usuario
+      properties:
+        nombre:
+          type: string
+          minLength: 5
+          maxLength: 50
+          example: "Juan"
+        apellido:
+          type: string
+          minLength: 5
+          maxLength: 50
+          example: "Pérez"
+        nombre_usuario:
+          type: string
+          format: email
+          example: "juan@gmail.com"
+        contrasenia:
+          type: string
+          minLength: 8
+          example: "password123"
+        tipo_usuario:
+          type: integer
+          minimum: 1
+          maximum: 3
+          example: 1
+          description: "1=Admin, 2=Empleado, 3=Cliente"
+
+    UsuarioUpdate:
+      type: object
+      properties:
+        nombre:
+          type: string
+          minLength: 5
+          maxLength: 50
+          example: "Juan Carlos"
+        apellido:
+          type: string
+          minLength: 5
+          maxLength: 50
+          example: "Pérez González"
+        nombre_usuario:
+          type: string
+          format: email
+          example: "juancarlos@gmail.com"
+        contrasenia:
+          type: string
+          minLength: 8
+          example: "newpassword123"
+        tipo_usuario:
+          type: integer
+          minimum: 1
+          maximum: 3
+          example: 2
+
+  responses:
+    ErrorValidacion:
+      description: Error de validación en los datos enviados
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              estado:
+                type: boolean
+                example: false
+              mensaje:
+                type: string
+                example: "Error de validación"
+              detalles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    campo:
+                      type: string
+                      example: "titulo"
+                    mensaje:
+                      type: string
+                      example: "El título es requerido"
+                    valor:
+                      type: string
+                      example: ""
+
+    NoAutorizado:
+      description: No autorizado - Token inválido o expirado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              estado:
+                type: boolean
+                example: false
+              mensaje:
+                type: string
+                example: "Token inválido o expirado"
+
+    PermisosInsuficientes:
+      description: Permisos insuficientes para realizar la acción
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              estado:
+                type: boolean
+                example: false
+              mensaje:
+                type: string
+                example: "Permisos insuficientes"
+
+    NoEncontrado:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              estado:
+                type: boolean
+                example: false
+              mensaje:
+                type: string
+                example: "Recurso no encontrado"
+tags:
+  - name: Autenticación
+    description: Endpoints con autenticación JWT
+  - name: Salones
+    description: Gestión de salones disponibles para reservas
+  - name: Servicios
+    description: Gestión de servicios adicionales para reservas
+  - name: Turnos
+    description: Gestión de horarios y turnos disponibles
+  - name: Reservas
+    description: Gestión completa de reservas del sistema
+  - name: Usuarios
+    description: Gestión de usuarios y permisos del sistema
+  - name: Reportes
+    description: Generación de reportes en PDF y CSV
+>>>>>>> origin/Seba

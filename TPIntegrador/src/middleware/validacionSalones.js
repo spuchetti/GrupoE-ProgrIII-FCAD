@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { body, param, validationResult } from "express-validator";
 import { ErrorValidacion } from "../errores/ErrorApp.js";
 
@@ -14,6 +15,10 @@ export const manejarResultadosValidacion = (req, res, next) => {
   }
   next();
 };
+=======
+import { body, param } from "express-validator";
+import { manejarResultadosValidacion } from "./resultadosValidacion.js";
+>>>>>>> origin/Seba
 
 // Validaciones para crear salón
 export const validarCrearSalon = [

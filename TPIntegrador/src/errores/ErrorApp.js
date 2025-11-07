@@ -30,4 +30,26 @@ export class ErrorBaseDatos extends ErrorApp {
   constructor(mensaje = 'Error de base de datos') {
     super(mensaje, 500);
   }
+<<<<<<< HEAD
 }
+=======
+}
+
+export class ErrorCredencialesInvalidas extends ErrorAuth {
+  constructor() {
+    super("Credenciales inválidas");
+  }
+}
+
+export class ErrorTokenInvalido extends ErrorAuth {
+  constructor() {
+    super("Token inválido o expirado");
+  }
+}
+
+export class ErrorPermisosInsuficientes extends ErrorAuth {
+  constructor() {
+    super("Permisos insuficientes");
+  }
+}
+>>>>>>> origin/Seba
