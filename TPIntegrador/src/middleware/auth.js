@@ -27,8 +27,11 @@ export const verificarToken = (req) => {
 
 export const esAdmin = (req, res, next) => {
   const decoded = verificarToken(req);
-  if (!decoded || decoded.rol !== 'admin') {
-    throw new ErrorAuth('Acceso denegado: se requiere rol administrador');
+  if (!decoded) {
+    return res.status(401).json({ mensaje: 'Token inválido o ausente' });
+  }
+  if (decoded.tipo_usuario !== 1) {
+    return res.status(403).json({ mensaje: 'Acceso denegado: se requiere rol administrador' });
   }
   // Adjuntamos info del usuario al request
   req.usuario = decoded;

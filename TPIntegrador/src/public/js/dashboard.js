@@ -305,9 +305,12 @@
       elementosDOM.botonInstalarSPs.disabled = true;
       elementosDOM.botonInstalarSPs.textContent = 'Instalando...';
       
-      const respuesta = await fetch('/servicios/dashboard/instalar-sps', {
+      const respuesta = await fetch('/api/v1/instalar-sps', {
         method: 'POST',
-        headers: { Authorization: 'Bearer ' + token }
+        headers: { 
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
       });
       
       const datos = await respuesta.json();
@@ -389,7 +392,7 @@
       elementosDOM.botonEjecutarReporte.disabled = true;
       elementosDOM.botonEjecutarReporte.textContent = 'Generando...';
       
-      const respuesta = await fetch('/servicios/dashboard/reporte-reservas?' + parametros.toString(), {
+      const respuesta = await fetch('/api/v1/reporte-reservas?' + parametros.toString(), {
         headers: { 
           'Authorization': 'Bearer ' + token,
           'Content-Type': 'application/json'

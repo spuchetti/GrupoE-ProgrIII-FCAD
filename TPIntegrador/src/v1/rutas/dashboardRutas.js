@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { body, query } from 'express-validator';
-import { DashboardControlador } from '../controladores/dashboardControlador.js';
-import { esAdmin } from '../middleware/auth.js';
-import resultadosValidacion from '../resuladosValidacion.js';
+import { DashboardControlador } from '../../controladores/dashboardControlador.js';
+import { esAdmin } from '../../middleware/auth.js';
+import { manejarResultadosValidacion } from '../../middleware/resultadosValidacion.js';
 
 const router = Router();
 const controladorDashboard = new DashboardControlador();
@@ -23,7 +23,7 @@ router.post(
       .notEmpty()
       .withMessage('La contraseña es requerida')
   ],
-  resultadosValidacion,
+  manejarResultadosValidacion,
   controladorDashboard.iniciarSesion
 );
 
@@ -31,6 +31,7 @@ router.post(
 router.post(
   '/instalar-sps',
   esAdmin,
+  manejarResultadosValidacion,
   controladorDashboard.instalarSPs
 );
 
@@ -89,7 +90,7 @@ router.get(
       .withMessage('El usuario_id debe ser un número entero mayor a 0')
       .toInt()
   ],
-  resultadosValidacion,
+  manejarResultadosValidacion,
   controladorDashboard.reporteReservas
 );
 

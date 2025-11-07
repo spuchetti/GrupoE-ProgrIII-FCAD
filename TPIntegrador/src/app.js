@@ -11,6 +11,7 @@ import { router as v1ServiciosRutas } from './v1/rutas/serviciosRutas.js';
 import { router as v1TurnosRutas } from './v1/rutas/turnosRutas.js';
 import { router as v1UsuariosRutas } from './v1/rutas/usuariosRutas.js';
 import { router as v1ReservasRutas } from './v1/rutas/reservasRutas.js';
+import { router as v1DashboardRutas } from './v1/rutas/dashboardRutas.js';
 import { manejadorErrores, rutaNoEncontrada } from './middleware/manejadorErrores.js';
 import { estrategiaLocal, estrategiaJWT } from './config/passport.js';
 import path from "path";
@@ -58,8 +59,10 @@ app.use('/api/v1', v1AuthRutas);
 app.use('/api/v1', v1SalonesRutas);
 app.use('/api/v1', v1ServiciosRutas);
 app.use('/api/v1', v1TurnosRutas);
+app.use('/api/v1', v1DashboardRutas);
 app.use('/api/v1', passport.authenticate('jwt', { session: false }), v1ReservasRutas);
 app.use('/api/v1', passport.authenticate('jwt', { session: false }), v1UsuariosRutas);
+
 
 
 app.use(rutaNoEncontrada); // Middleware para rutas no encontradas
