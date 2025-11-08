@@ -69,8 +69,8 @@ export const validarCrearUsuario = [
     .notEmpty()
     .withMessage("La contraseña es requerida")
     .trim()
-    .isLength({ min: 8 })
-    .withMessage("La contraseña debe tener al menos 8 caracteres")
+    .isLength({ min: 6 })
+    .withMessage("La contraseña debe tener al menos 6 caracteres")
     .isAlphanumeric()
     .withMessage("La contraseña solo puede contener letras y números"),
 

@@ -35,6 +35,127 @@
     },
     {
       "type": "folder",
+      "name": "Auth",
+      "filename": "Auth",
+      "seq": 7,
+      "root": {
+        "request": {
+          "auth": {
+            "mode": "inherit"
+          }
+        },
+        "meta": {
+          "name": "Auth",
+          "seq": 7
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Login",
+          "filename": "Login.bru",
+          "seq": 6,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/auth/login",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "",
+                "value": "",
+                "enabled": true
+              }
+            ],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"nombre_usuario\": \"spuchetti16@gmail.com\",\n  \"contrasenia\": \"123456\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Restablecer contraseña",
+          "filename": "Restablecer contraseña.bru",
+          "seq": 3,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/auth/restablecer-contrasenia",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMiwibW9kaWZpY2FkbyI6IjIwMjUtMTEtMDhUMDE6NTU6MjIuMDAwWiIsImlhdCI6MTc2MjU2NzAyMCwiZXhwIjoxNzYyNTcwNjIwfQ.5Y1XQAm6t3Q0VvxRgl8h1DyGrmj-QRtpxiV3fG2MS4c\",\n  \"contrasenia\": \"123456789\"\n\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Solicitar restablecer",
+          "filename": "Solicitar restablecer.bru",
+          "seq": 2,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/auth/solicitar-restablecer",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"nombre_usuario\": \"grupoe.progr3.fcad@gmail.com\"\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
       "name": "Reservas",
       "filename": "Reservas",
       "seq": 5,
@@ -95,11 +216,17 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/reservas",
             "method": "POST",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjMsImlhdCI6MTc2MjU1NTU3MSwiZXhwIjoxNzYyNTU5MTcxfQ.CaUc_Tfrvn08qXQreUsjSY_rJ8Z6-mJVvIAzWzAGvV0",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"fecha_reserva\": \"2025-12-20\",\n  \"salon_id\": 1,\n  \"usuario_id\": 1,\n  \"turno_id\": 1,\n  \"tematica\": \"Prueba Bruno 2\",\n  \"servicios\": [\n    {\n      \"servicio_id\": 1,\n      \"importe\": 20000.00\n    },\n    {\n      \"servicio_id\": 2, \n      \"importe\": 25000.00\n    },\n    {\n      \"servicio_id\": 4,\n      \"importe\": 15000.00\n    }\n  ]\n}",
+              "json": "{\n  \"fecha_reserva\": \"2025-12-22\",\n  \"salon_id\": 2,\n  \"usuario_id\": 9,\n  \"turno_id\": 1,\n  \"tematica\": \"Progr III\",\n  \"servicios\": [\n   \n  ]\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -156,9 +283,15 @@
           },
           "tags": [],
           "request": {
-            "url": "{{apiUrl}}/api/v1/reservas/reportes/pdf",
+            "url": "{{apiUrl}}/api/v1/reservas/reportes/csv",
             "method": "GET",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MSwiaWF0IjoxNzYyNTY2MTQ1LCJleHAiOjE3NjI1Njk3NDV9.SMASnhObO4c0mW8kwOB8MmPEhXgKjVsDnQwVzxeWAKU",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "none",
@@ -251,183 +384,13 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/reservas",
             "method": "GET",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "folder",
-      "name": "Salones",
-      "filename": "Salones",
-      "seq": 2,
-      "root": {
-        "request": {
-          "auth": {
-            "mode": "inherit"
-          }
-        },
-        "meta": {
-          "name": "Salones",
-          "seq": 2
-        }
-      },
-      "items": [
-        {
-          "type": "http",
-          "name": "Actualizar salon",
-          "filename": "Actualizar salon.bru",
-          "seq": 4,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/2",
-            "method": "PUT",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n \"titulo\": \"Hola a todos\",\n \"capacidad\": 100\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Crear salon",
-          "filename": "Crear salon.bru",
-          "seq": 3,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones",
-            "method": "POST",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"titulo\": \"El calamar\",\n  \"direccion\": \"calle 2\",\n  \"capacidad\": 350,\n  \"importe\": 120000\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Eliminar salon",
-          "filename": "Eliminar salon.bru",
-          "seq": 5,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/3",
-            "method": "DELETE",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Salon por id",
-          "filename": "Salon por id.bru",
-          "seq": 2,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/3",
-            "method": "GET",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Todos los salones activos",
-          "filename": "Todos los salones activos.bru",
-          "seq": 1,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones",
-            "method": "GET",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTA5LCJleHAiOjE3NjI1Njk1MDl9.VQMGPlUa7M5DMIxCi9J1eEG2DxdZCeFSIW2mOPjGv_w",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "none",
@@ -475,13 +438,19 @@
           },
           "tags": [],
           "request": {
-            "url": "{{apiUrl}}/api/v1/servicios/9",
+            "url": "{{apiUrl}}/api/v1/servicios/2",
             "method": "PUT",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjIsImlhdCI6MTc2MjU1NjAwNCwiZXhwIjoxNzYyNTU5NjA0fQ.9r4Cool5xJofA8Dbin3NWM8BsGU-8A6oLfBqUhFfc9o",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"importe\": 30000\n}",
+              "json": "{\n  \"importe\": 20000\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -570,7 +539,7 @@
           },
           "tags": [],
           "request": {
-            "url": "{{apiUrl}}/api/v1/servicios/9",
+            "url": "{{apiUrl}}/api/v1/servicios/2",
             "method": "GET",
             "headers": [],
             "params": [],
@@ -602,6 +571,194 @@
           "tags": [],
           "request": {
             "url": "{{apiUrl}}/api/v1/servicios",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Salones",
+      "filename": "Salones",
+      "seq": 2,
+      "root": {
+        "request": {
+          "auth": {
+            "mode": "inherit"
+          }
+        },
+        "meta": {
+          "name": "Salones",
+          "seq": 2
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Actualizar salon",
+          "filename": "Actualizar salon.bru",
+          "seq": 4,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/2",
+            "method": "PUT",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n \"titulo\": \"Hola a todos\",\n \"capacidad\": 100\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Crear salon",
+          "filename": "Crear salon.bru",
+          "seq": 3,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTkyLCJleHAiOjE3NjI1Njk1OTJ9.Q4flW_WcC-qbpi_kEa2G7JsZ54vULifIqgAK214ygzA",
+                "enabled": true
+              }
+            ],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"titulo\": \"salon nuevo\",\n  \"direccion\": \"av nueva\",\n  \"capacidad\": 100 ,\n  \"importe\": 5000\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Eliminar salon",
+          "filename": "Eliminar salon.bru",
+          "seq": 5,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/1",
+            "method": "DELETE",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjEsImlhdCI6MTc2MjU1MTEyNCwiZXhwIjoxNzYyNTU0NzI0fQ.iKR0ySVPmX42U8qZYDhObMRzSiOoM8x4GQDnnKyCOLA",
+                "enabled": true
+              }
+            ],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Salon por id",
+          "filename": "Salon por id.bru",
+          "seq": 2,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/3",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Todos los salones activos",
+          "filename": "Todos los salones activos.bru",
+          "seq": 1,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones",
             "method": "GET",
             "headers": [],
             "params": [],
@@ -827,13 +984,19 @@
           },
           "tags": [],
           "request": {
-            "url": "{{apiUrl}}/api/v1/usuarios/11",
+            "url": "{{apiUrl}}/api/v1/usuarios/9",
             "method": "PUT",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjEsImlhdCI6MTc2MjU1MTEyNCwiZXhwIjoxNzYyNTU0NzI0fQ.iKR0ySVPmX42U8qZYDhObMRzSiOoM8x4GQDnnKyCOLA",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"tipo_usuario\": \"3\"\n}",
+              "json": "{\n  \"tipo_usuario\": \"2\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -861,11 +1024,17 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/usuarios",
             "method": "POST",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MSwiaWF0IjoxNzYyNTY1NTM5LCJleHAiOjE3NjI1NjkxMzl9.HRm5bMIrW5zEYWYB8-7LseGSG6C14kv0j61A97cHU2k",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"nombre\": \"Pepito\",\n  \"apellido\": \"Gutierrez\",\n  \"nombre_usuario\": \"pepitoelmejor1994@gmail.com\",\n  \"contrasenia\": \"pepitoG01\",\n  \"tipo_usuario\": \"2\"\n}",
+              "json": "{\n  \"nombre\": \"Pepito\",\n  \"apellido\": \"Gutierrez\",\n  \"nombre_usuario\": \"pepito12@gmail.com\",\n  \"contrasenia\": \"123456789\",\n  \"tipo_usuario\": \"3\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -924,7 +1093,13 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/usuarios",
             "method": "GET",
-            "headers": [],
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTA5LCJleHAiOjE3NjI1Njk1MDl9.VQMGPlUa7M5DMIxCi9J1eEG2DxdZCeFSIW2mOPjGv_w",
+                "enabled": true
+              }
+            ],
             "params": [],
             "body": {
               "mode": "none",
@@ -953,7 +1128,7 @@
           },
           "tags": [],
           "request": {
-            "url": "{{apiUrl}}/api/v1/usuarios/11",
+            "url": "{{apiUrl}}/api/v1/usuarios/12",
             "method": "GET",
             "headers": [],
             "params": [],
@@ -974,124 +1149,9 @@
           }
         }
       ]
-    },
-    {
-      "type": "folder",
-      "name": "Auth",
-      "filename": "Auth",
-      "seq": 7,
-      "root": {
-        "request": {
-          "auth": {
-            "mode": "inherit"
-          }
-        },
-        "meta": {
-          "name": "Auth",
-          "seq": 7
-        }
-      },
-      "items": [
-        {
-          "type": "http",
-          "name": "Login",
-          "filename": "Login.bru",
-          "seq": 6,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/auth/login",
-            "method": "POST",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"nombre_usuario\": \"spuchetti16@gmail.com\",\n  \"contrasenia\": \"123456\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Solicitar restablecer",
-          "filename": "Solicitar restablecer.bru",
-          "seq": 2,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/auth/solicitar-restablecer",
-            "method": "POST",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"nombre_usuario\": \"spuchetti16@gmail.com\"\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Restablecer contraseña",
-          "filename": "Restablecer contraseña.bru",
-          "seq": 3,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/auth/restablecer-contrasenia",
-            "method": "POST",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJtb2RpZmljYWRvIjoiMjAyNS0xMS0wNlQyMDoyNDoyNC4wMDBaIiwiaWF0IjoxNzYyNDY0NDYwLCJleHAiOjE3NjI0NjgwNjB9.LoJBVzioMvXnvAGgzzeu2zwv4X6G_pmQGx-GYz-D8sU\",\n  \"contrasenia\": \"123456\"\n\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        }
-      ]
     }
   ],
-  "activeEnvironmentUid": "G62z8TYCnna8OLkLTpxR6",
+  "activeEnvironmentUid": "SUJdRPiFWwNCCR8Hz228Z",
   "environments": [
     {
       "variables": [
@@ -1114,7 +1174,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0.009869575500488281,
-    "filesCount": 35
+    "size": 0.00701141357421875,
+    "filesCount": 38
   }
 }
