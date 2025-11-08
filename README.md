@@ -10,9 +10,7 @@
 
 - **Sebastián Puchetti**  
 - **Tomás Francisco Giménez Lascano**  
-- **Daniel Hernández Torres**  
-- **Juan Ignacio Zacca**  
-- **Natalia Catalina Gonnet**  
+- **Daniel Hernández Torres**
 - **Emanuel Lencina**
 
 ---
