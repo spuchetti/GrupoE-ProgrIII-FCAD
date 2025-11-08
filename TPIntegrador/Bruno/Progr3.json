@@ -4,23 +4,6 @@
   "items": [
     {
       "type": "http",
-<<<<<<< HEAD
-      "name": "Actualizar salon",
-      "filename": "Actualizar salon.bru",
-      "seq": 7,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/v1/salones/2",
-        "method": "PUT",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "json",
-          "json": "{\n \"titulo\": \"nuevo titulo\",\n \"capacidad\": 100\n}",
-=======
       "name": "Estado API",
       "filename": "Estado API.bru",
       "seq": 8,
@@ -36,7 +19,6 @@
         "params": [],
         "body": {
           "mode": "none",
->>>>>>> origin/Seba
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -52,130 +34,6 @@
       }
     },
     {
-<<<<<<< HEAD
-      "type": "http",
-      "name": "Crear salon",
-      "filename": "Crear salon.bru",
-      "seq": 5,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/v1/salones",
-        "method": "POST",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "json",
-          "json": "{\n  \"titulo\": \"El calamar\",\n  \"direccion\": \"calle 2\",\n  \"capacidad\": 350,\n  \"importe\": 120000\n}",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Eliminar salon",
-      "filename": "Eliminar salon.bru",
-      "seq": 6,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/v1/salones/3",
-        "method": "DELETE",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Salon por id",
-      "filename": "Salon por id.bru",
-      "seq": 4,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/v1/salones/2",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    },
-    {
-      "type": "http",
-      "name": "Todos los salones activos",
-      "filename": "Todos los salones activos.bru",
-      "seq": 3,
-      "settings": {
-        "encodeUrl": true
-      },
-      "tags": [],
-      "request": {
-        "url": "{{apiUrl}}/api/v1/salones",
-        "method": "GET",
-        "headers": [],
-        "params": [],
-        "body": {
-          "mode": "none",
-          "formUrlEncoded": [],
-          "multipartForm": [],
-          "file": []
-        },
-        "script": {},
-        "vars": {},
-        "assertions": [],
-        "tests": "",
-        "docs": "",
-        "auth": {
-          "mode": "inherit"
-        }
-      }
-    }
-  ],
-  "activeEnvironmentUid": "OwwUNANM8BbyuoFNDiyfh",
-=======
       "type": "folder",
       "name": "Auth",
       "filename": "Auth",
@@ -205,17 +63,11 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/auth/login",
             "method": "POST",
-            "headers": [
-              {
-                "name": "",
-                "value": "",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"nombre_usuario\": \"spuchetti16@gmail.com\",\n  \"contrasenia\": \"123456\"\n}",
+              "json": "{\n  \"nombre_usuario\": \"spuchetti16@gmail.com\",\n  \"contrasenia\": \"123456789\"\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -358,17 +210,11 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/reservas",
             "method": "POST",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjMsImlhdCI6MTc2MjU1NTU3MSwiZXhwIjoxNzYyNTU5MTcxfQ.CaUc_Tfrvn08qXQreUsjSY_rJ8Z6-mJVvIAzWzAGvV0",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "json",
-              "json": "{\n  \"fecha_reserva\": \"2025-12-22\",\n  \"salon_id\": 2,\n  \"usuario_id\": 9,\n  \"turno_id\": 1,\n  \"tematica\": \"Progr III\",\n  \"servicios\": [\n   \n  ]\n}",
+              "json": "{\n  \"fecha_reserva\": \"2025-12-22\",\n  \"salon_id\": 2,\n  \"usuario_id\": 9,\n  \"turno_id\": 1,\n  \"tematica\": \"Progr III\",\n  \"servicios\": [{\n    \"servicio_id\": 1,\n    \"importe\": 50000\n    },\n    {\n      \"servicio_id\": 2,\n      \"importe\": 10000\n    }\n  ]\n}",
               "formUrlEncoded": [],
               "multipartForm": [],
               "file": []
@@ -427,13 +273,7 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/reservas/reportes/csv",
             "method": "GET",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MSwiaWF0IjoxNzYyNTY2MTQ1LCJleHAiOjE3NjI1Njk3NDV9.SMASnhObO4c0mW8kwOB8MmPEhXgKjVsDnQwVzxeWAKU",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "none",
@@ -526,13 +366,183 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/reservas",
             "method": "GET",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTA5LCJleHAiOjE3NjI1Njk1MDl9.VQMGPlUa7M5DMIxCi9J1eEG2DxdZCeFSIW2mOPjGv_w",
-                "enabled": true
-              }
-            ],
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "Salones",
+      "filename": "Salones",
+      "seq": 2,
+      "root": {
+        "request": {
+          "auth": {
+            "mode": "inherit"
+          }
+        },
+        "meta": {
+          "name": "Salones",
+          "seq": 2
+        }
+      },
+      "items": [
+        {
+          "type": "http",
+          "name": "Actualizar salon",
+          "filename": "Actualizar salon.bru",
+          "seq": 4,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/2",
+            "method": "PUT",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n \"titulo\": \"Hola a todos\",\n \"capacidad\": 100\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Crear salon",
+          "filename": "Crear salon.bru",
+          "seq": 3,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones",
+            "method": "POST",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "json",
+              "json": "{\n  \"titulo\": \"salon nuevo\",\n  \"direccion\": \"av nueva\",\n  \"capacidad\": 100 ,\n  \"importe\": 5000\n}",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Eliminar salon",
+          "filename": "Eliminar salon.bru",
+          "seq": 5,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/1",
+            "method": "DELETE",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Salon por id",
+          "filename": "Salon por id.bru",
+          "seq": 2,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones/3",
+            "method": "GET",
+            "headers": [],
+            "params": [],
+            "body": {
+              "mode": "none",
+              "formUrlEncoded": [],
+              "multipartForm": [],
+              "file": []
+            },
+            "script": {},
+            "vars": {},
+            "assertions": [],
+            "tests": "",
+            "docs": "",
+            "auth": {
+              "mode": "none"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "Todos los salones activos",
+          "filename": "Todos los salones activos.bru",
+          "seq": 1,
+          "settings": {
+            "encodeUrl": true,
+            "timeout": 0
+          },
+          "tags": [],
+          "request": {
+            "url": "{{apiUrl}}/api/v1/salones",
+            "method": "GET",
+            "headers": [],
             "params": [],
             "body": {
               "mode": "none",
@@ -582,13 +592,7 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/servicios/2",
             "method": "PUT",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjIsImlhdCI6MTc2MjU1NjAwNCwiZXhwIjoxNzYyNTU5NjA0fQ.9r4Cool5xJofA8Dbin3NWM8BsGU-8A6oLfBqUhFfc9o",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "json",
@@ -713,194 +717,6 @@
           "tags": [],
           "request": {
             "url": "{{apiUrl}}/api/v1/servicios",
-            "method": "GET",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "type": "folder",
-      "name": "Salones",
-      "filename": "Salones",
-      "seq": 2,
-      "root": {
-        "request": {
-          "auth": {
-            "mode": "inherit"
-          }
-        },
-        "meta": {
-          "name": "Salones",
-          "seq": 2
-        }
-      },
-      "items": [
-        {
-          "type": "http",
-          "name": "Actualizar salon",
-          "filename": "Actualizar salon.bru",
-          "seq": 4,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/2",
-            "method": "PUT",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n \"titulo\": \"Hola a todos\",\n \"capacidad\": 100\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Crear salon",
-          "filename": "Crear salon.bru",
-          "seq": 3,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones",
-            "method": "POST",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTkyLCJleHAiOjE3NjI1Njk1OTJ9.Q4flW_WcC-qbpi_kEa2G7JsZ54vULifIqgAK214ygzA",
-                "enabled": true
-              }
-            ],
-            "params": [],
-            "body": {
-              "mode": "json",
-              "json": "{\n  \"titulo\": \"salon nuevo\",\n  \"direccion\": \"av nueva\",\n  \"capacidad\": 100 ,\n  \"importe\": 5000\n}",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Eliminar salon",
-          "filename": "Eliminar salon.bru",
-          "seq": 5,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/1",
-            "method": "DELETE",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjEsImlhdCI6MTc2MjU1MTEyNCwiZXhwIjoxNzYyNTU0NzI0fQ.iKR0ySVPmX42U8qZYDhObMRzSiOoM8x4GQDnnKyCOLA",
-                "enabled": true
-              }
-            ],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Salon por id",
-          "filename": "Salon por id.bru",
-          "seq": 2,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones/3",
-            "method": "GET",
-            "headers": [],
-            "params": [],
-            "body": {
-              "mode": "none",
-              "formUrlEncoded": [],
-              "multipartForm": [],
-              "file": []
-            },
-            "script": {},
-            "vars": {},
-            "assertions": [],
-            "tests": "",
-            "docs": "",
-            "auth": {
-              "mode": "none"
-            }
-          }
-        },
-        {
-          "type": "http",
-          "name": "Todos los salones activos",
-          "filename": "Todos los salones activos.bru",
-          "seq": 1,
-          "settings": {
-            "encodeUrl": true,
-            "timeout": 0
-          },
-          "tags": [],
-          "request": {
-            "url": "{{apiUrl}}/api/v1/salones",
             "method": "GET",
             "headers": [],
             "params": [],
@@ -1128,13 +944,7 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/usuarios/9",
             "method": "PUT",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo5LCJub21icmUiOiJTZWJhc3RpYW4iLCJ0aXBvX3VzdWFyaW8iOjEsImlhdCI6MTc2MjU1MTEyNCwiZXhwIjoxNzYyNTU0NzI0fQ.iKR0ySVPmX42U8qZYDhObMRzSiOoM8x4GQDnnKyCOLA",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "json",
@@ -1166,13 +976,7 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/usuarios",
             "method": "POST",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MSwiaWF0IjoxNzYyNTY1NTM5LCJleHAiOjE3NjI1NjkxMzl9.HRm5bMIrW5zEYWYB8-7LseGSG6C14kv0j61A97cHU2k",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "json",
@@ -1235,13 +1039,7 @@
           "request": {
             "url": "{{apiUrl}}/api/v1/usuarios",
             "method": "GET",
-            "headers": [
-              {
-                "name": "Authorization",
-                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjoxMCwibm9tYnJlIjoiRW1hbnVlbCIsInRpcG9fdXN1YXJpbyI6MywiaWF0IjoxNzYyNTY1OTA5LCJleHAiOjE3NjI1Njk1MDl9.VQMGPlUa7M5DMIxCi9J1eEG2DxdZCeFSIW2mOPjGv_w",
-                "enabled": true
-              }
-            ],
+            "headers": [],
             "params": [],
             "body": {
               "mode": "none",
@@ -1293,12 +1091,7 @@
       ]
     }
   ],
-<<<<<<< HEAD
-  "activeEnvironmentUid": "G62z8TYCnna8OLkLTpxR6",
->>>>>>> origin/Seba
-=======
-  "activeEnvironmentUid": "SUJdRPiFWwNCCR8Hz228Z",
->>>>>>> origin/Seba
+  "activeEnvironmentUid": "jbDMkZEZhzbrDlmqvK4Ue",
   "environments": [
     {
       "variables": [
@@ -1321,17 +1114,7 @@
       "node_modules",
       ".git"
     ],
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "size": 0.0009908676147460938,
-    "filesCount": 6
-=======
-    "size": 0.009869575500488281,
-    "filesCount": 35
->>>>>>> origin/Seba
-=======
-    "size": 0.00701141357421875,
+    "size": 0.006927490234375,
     "filesCount": 38
->>>>>>> origin/Seba
   }
 }
