@@ -1,12 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-<<<<<<< HEAD
-import swaggerUI from 'swagger-ui-express';
-import specs  from './docs/swagger.js';
-import { router as v1SalonesRutas } from './v1/rutas/salonesRutas.js';
-import { manejadorErrores, rutaNoEncontrada } from './middleware/manejadorErrores.js';
-
-=======
 import passport from 'passport';
 import fs from 'fs';
 import morgan from 'morgan';
@@ -20,7 +13,6 @@ import { router as v1UsuariosRutas } from './v1/rutas/usuariosRutas.js';
 import { router as v1ReservasRutas } from './v1/rutas/reservasRutas.js';
 import { manejadorErrores, rutaNoEncontrada } from './middleware/manejadorErrores.js';
 import { estrategiaLocal, estrategiaJWT } from './config/passport.js';
->>>>>>> origin/Seba
 
 
 dotenv.config(); // Cargamos las variables de entorno
@@ -28,14 +20,6 @@ dotenv.config(); // Cargamos las variables de entorno
 
 const app = express();
 app.use(express.json());
-<<<<<<< HEAD
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
-// Le definimos la ruta /docs
-// swaggerUI.serve -> Retorna un handler para manejar los archivos documentados
-// swaggerUI.setup -> Le pasamos un archivo, o un objeto de configuración para el handler
-
-app.use('/api/v1/salones', v1SalonesRutas);
-=======
 
 passport.use('local', estrategiaLocal);
 passport.use('jwt', estrategiaJWT);
@@ -64,7 +48,6 @@ app.use('/api/v1', v1TurnosRutas);
 app.use('/api/v1', passport.authenticate('jwt', { session: false }), v1ReservasRutas);
 app.use('/api/v1', passport.authenticate('jwt', { session: false }), v1UsuariosRutas);
 
->>>>>>> origin/Seba
 
 app.use(rutaNoEncontrada); // Middleware para rutas no encontradas
 
@@ -73,8 +56,4 @@ app.use(manejadorErrores); // Middleware centralizado para manejo de errores
 
 app.listen(process.env.PUERTO, () => { 
     console.log(`Servidor arriba en http://localhost:${process.env.PUERTO}/`);
-<<<<<<< HEAD
 })
-=======
-})
->>>>>>> origin/Seba
