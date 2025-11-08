@@ -50,7 +50,7 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El salón no está disponible para esa fecha y turno';
     END IF;
     
-    -- 4. Obtener importe del salón
+    -- Obtenemos importe del salón
     SELECT importe INTO v_importe_salon 
     FROM salones 
     WHERE salon_id = p_salon_id;
@@ -59,7 +59,7 @@ BEGIN
         SET v_importe_salon = 0;
     END IF;
     
-    -- 5. Insertar reserva SOLO con importe del salón
+    -- Insertamos reserva SOLO con importe del salón
     INSERT INTO reservas (
         fecha_reserva, salon_id, usuario_id, turno_id, 
         foto_cumpleaniero, tematica, importe_salon, importe_total

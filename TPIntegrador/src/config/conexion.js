@@ -19,8 +19,4 @@ export const crearConexion = async() => {
     }
 }
 
-<<<<<<< HEAD
 export const conexion = await crearConexion();
-=======
-export const conexion = await crearConexion();
->>>>>>> origin/Seba

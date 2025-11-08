@@ -2,9 +2,6 @@ openapi: 3.0.0
 info:
   title: API de Salones de Cumpleaños
   version: 1.0.0
-<<<<<<< HEAD
-  description: API para gestionar reservas y administración de salones de cumpleaños.
-=======
   description: |
     API completa para gestionar reservas, salones, servicios, turnos y usuarios de salones de cumpleaños.
     
@@ -15,19 +12,11 @@ info:
     - Notificaciones por correo
     - Cache para optimización
 
->>>>>>> origin/Seba
 servers:
   - url: http://localhost:3000
     description: Servidor local
 
 paths:
-<<<<<<< HEAD
-  /api/v1/salones:
-    get:
-      tags:
-      - Salones
-      summary: Obtener todos los salones
-=======
   /api/v1/auth/login:
     post:
       tags:
@@ -78,7 +67,6 @@ paths:
         - Salones
       summary: Obtener todos los salones
       description: Endpoint público que devuelve todos los salones activos (con cache)
->>>>>>> origin/Seba
       responses:
         '200':
           description: Lista de salones
@@ -87,33 +75,20 @@ paths:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-                    type: boolean
-                    example: true
-                  salones:
-=======
                   estado:
                     type: boolean
                     example: true
                   datos:
->>>>>>> origin/Seba
                     type: array
                     items:
                       $ref: '#/components/schemas/Salon'
     post:
-<<<<<<< HEAD
-      tags:
-      - Salones
-      summary: Crear un nuevo salón
-=======
       security:
         - bearerAuth: []
       tags:
         - Salones
       summary: Crear un nuevo salón
       description: Requiere permisos CREAR_SALONES
->>>>>>> origin/Seba
       requestBody:
         required: true
         content:
@@ -122,23 +97,12 @@ paths:
               $ref: '#/components/schemas/SalonInput'
       responses:
         '201':
-<<<<<<< HEAD
-          description: Salón creado
-=======
           description: Salón creado exitosamente
->>>>>>> origin/Seba
           content:
             application/json:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-                    type: boolean
-                    example: true
-                  datos:
-                    $ref: '#/components/schemas/Salon'
-=======
                   estado:
                     type: boolean
                     example: true
@@ -153,30 +117,21 @@ paths:
           $ref: '#/components/responses/NoAutorizado'
         '403':
           $ref: '#/components/responses/PermisosInsuficientes'
->>>>>>> origin/Seba
 
   /api/v1/salones/{id}:
     get:
       tags:
-<<<<<<< HEAD
-      - Salones
-      summary: Obtener un salón por ID
-=======
         - Salones
       summary: Obtener un salón por ID
       description: Endpoint público (con cache)
->>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
-<<<<<<< HEAD
-=======
             minimum: 1
           example: 1
->>>>>>> origin/Seba
       responses:
         '200':
           description: Detalle del salón
@@ -185,34 +140,12 @@ paths:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-=======
                   estado:
->>>>>>> origin/Seba
                     type: boolean
                     example: true
                   datos:
                     $ref: '#/components/schemas/Salon'
         '404':
-<<<<<<< HEAD
-          description: Salón no encontrado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                    example: false
-                  mensaje:
-                    type: string
-                    example: Salón no encontrado
-    put:
-      tags:
-      - Salones
-      summary: Actualizar un salón
-=======
           $ref: '#/components/responses/NoEncontrado'
     put:
       security:
@@ -221,17 +154,13 @@ paths:
         - Salones
       summary: Actualizar un salón
       description: Requiere permisos ACTUALIZAR_SALONES
->>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
-<<<<<<< HEAD
-=======
             minimum: 1
->>>>>>> origin/Seba
       requestBody:
         required: true
         content:
@@ -246,30 +175,6 @@ paths:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-                    type: boolean
-                    example: true
-                  datos:
-                    $ref: '#/components/schemas/Salon'
-        '404':
-          description: Salón no encontrado
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
-                    example: false
-                  mensaje:
-                    type: string
-                    example: Salón no encontrado
-    delete:
-      tags:
-      - Salones
-      summary: Eliminar un salón
-=======
                   estado:
                     type: boolean
                     example: true
@@ -289,17 +194,13 @@ paths:
         - Salones
       summary: Eliminar un salón
       description: Requiere permisos ELIMINAR_SALONES
->>>>>>> origin/Seba
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
-<<<<<<< HEAD
-=======
             minimum: 1
->>>>>>> origin/Seba
       responses:
         '200':
           description: Salón eliminado
@@ -308,20 +209,11 @@ paths:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-=======
                   estado:
->>>>>>> origin/Seba
                     type: boolean
                     example: true
                   mensaje:
                     type: string
-<<<<<<< HEAD
-                    example: Salón eliminado correctamente
-        '404':
-          description: Salón no encontrado
-=======
                     example: "Salón eliminado correctamente"
         '404':
           $ref: '#/components/responses/NoEncontrado'
@@ -335,23 +227,11 @@ paths:
       responses:
         '200':
           description: Lista de servicios
->>>>>>> origin/Seba
           content:
             application/json:
               schema:
                 type: object
                 properties:
-<<<<<<< HEAD
-                  ok:
-                    type: boolean
-                    example: false
-                  mensaje:
-                    type: string
-                    example: Salón no encontrado
-
-components:
-  schemas:
-=======
                   estado:
                     type: boolean
                     example: true
@@ -1069,25 +949,11 @@ components:
           description: "1=Admin, 2=Empleado, 3=Cliente"
 
     # Esquemas para Salones
->>>>>>> origin/Seba
     Salon:
       type: object
       properties:
         salon_id:
           type: integer
-<<<<<<< HEAD
-        titulo:
-          type: string
-        direccion:
-          type: string
-        capacidad:
-          type: integer
-        importe:
-          type: number
-          format: float
-        activo:
-          type: boolean
-=======
           example: 1
         titulo:
           type: string
@@ -1106,7 +972,6 @@ components:
           type: integer
           example: 1
 
->>>>>>> origin/Seba
     SalonInput:
       type: object
       required:
@@ -1117,15 +982,6 @@ components:
       properties:
         titulo:
           type: string
-<<<<<<< HEAD
-        direccion:
-          type: string
-        capacidad:
-          type: integer
-        importe:
-          type: number
-          format: float
-=======
           minLength: 2
           maxLength: 100
           example: "Salón Principal"
@@ -1144,21 +1000,11 @@ components:
           minimum: 1
           example: 1500.50
 
->>>>>>> origin/Seba
     SalonUpdate:
       type: object
       properties:
         titulo:
           type: string
-<<<<<<< HEAD
-        direccion:
-          type: string
-        capacidad:
-          type: integer
-        importe:
-          type: number
-          format: float
-=======
           minLength: 2
           maxLength: 100
           example: "Salón Principal Actualizado"
@@ -1589,4 +1435,3 @@ tags:
     description: Gestión de usuarios y permisos del sistema
   - name: Reportes
     description: Generación de reportes en PDF y CSV
->>>>>>> origin/Seba

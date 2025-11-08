@@ -30,9 +30,6 @@ export class ErrorBaseDatos extends ErrorApp {
   constructor(mensaje = 'Error de base de datos') {
     super(mensaje, 500);
   }
-<<<<<<< HEAD
-}
-=======
 }
 
 export class ErrorCredencialesInvalidas extends ErrorAuth {
@@ -52,4 +49,3 @@ export class ErrorPermisosInsuficientes extends ErrorAuth {
     super("Permisos insuficientes");
   }
 }
->>>>>>> origin/Seba
