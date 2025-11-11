@@ -1,200 +1,137 @@
-# Presentación del Grupo E
-**Materia:** Programación III  
-**Carrera:** Facultad de Ciencias de la Administración – UNER  
-**Año:** 2025  
-**Grupo:** E
+<!-- Encabezado principal con banner y badges -->
+<h1 align="center">🎉 Sistema de Reservas de Salones - Grupo E 🎉</h1>
+
+<p align="center">
+  <strong>Facultad de Ciencias de la Administración – UNER</strong><br>
+  <em>Materia: Programación III | Año: 2025</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=node.js&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black"/>
+  <img src="https://img.shields.io/badge/License-Educativo-blue?style=for-the-badge"/>
+</p>
 
 ---
 
-## 👥 Integrantes
+## 👥 Grupo E - Integrantes
 
-- **Sebastián Puchetti**  
-- **Tomás Francisco Giménez Lascano**  
-- **Daniel Hernández Torres**
-- **Emanuel Lencina**
-
----
-
-💻 Este repositorio contiene los trabajos prácticos y desarrollos realizados por el **Grupo E** en la materia **Programación III**.
-
-# Sistema de Reservas
-
-Backend RESTful desarrollado con **Node.js**, **Express** y **MySQL** para gestionar autenticación, usuarios, salones, servicios, turnos y reservas. Maneja errores centralizados y autenticación con **JWT** (Passport.js).
+| Nombre | Rol |
+|--------|-----|
+| Sebastián Puchetti | Desarrollador Backend |
+| Tomás Francisco Giménez Lascano | Desarrollador Backend |
+| Daniel Hernández Torres | Desarrollador Backend |
+| Emanuel Lencina | Desarrollador Backend |
 
 ---
 
-## 🚀 Tecnologías principales
+## 📋 Descripción del Proyecto
 
+Backend **RESTful** desarrollado con **Node.js**, **Express** y **MySQL** para gestionar un sistema completo de **reservas de salones de cumpleaños**.  
+
+Incluye autenticación **JWT**, gestión de **usuarios**, **salones**, **servicios**, **turnos**, **reservas** y generación de **reportes automáticos** en PDF y CSV.
+
+---
+
+## 🚀 Características Principales
+
+- 🔐 **Autenticación JWT** con Passport.js  
+- 👥 **Sistema de roles:** Admin, Empleado, Cliente  
+- 📧 **Notificaciones por correo automáticas**  
+- 📊 **Reportes PDF y CSV**  
+- ⚡ **Cache inteligente** con Apicache  
+- 📚 **Documentación interactiva con Swagger**  
+- 🛡️ **Validaciones robustas** con Express Validator  
+- 🎨 **Plantillas HTML profesionales** para emails  
+- 🗄️ **Base de datos MySQL** con stored procedures  
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+### Backend
 - Node.js + Express 5  
-- MySQL 8 (mysql2)  
-- Passport.js (Local y JWT)  
-- Swagger UI (documentación)  
-- Puppeteer (generación de PDFs)  
-- Handlebars (plantillas de correo)  
-- Nodemailer (envío de emails)  
-- Express Validator (validaciones)  
-- Apicache (cacheo de respuestas)
+- MySQL 8 (`mysql2/promise`)  
+- Passport.js (Local y JWT strategies)  
+- Express Validator  
+
+### Utilidades
+- Swagger UI – Documentación interactiva  
+- Puppeteer – Generación de PDFs  
+- Handlebars – Plantillas HTML  
+- Nodemailer – Envío de correos  
+- Apicache – Cache HTTP  
+- Morgan – Logging estructurado  
 
 ---
 
-## 📦 Dependencias
+## 📦 Dependencias Principales
 
 ```json
 {
-    "apicache": "^1.6.3",
-    "csv-writer": "^1.6.0",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "express-validator": "^7.2.1",
-    "handlebars": "^4.7.8",
-    "js-yaml": "^4.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.1",
-    "mysql2": "^3.14.5",
-    "nodemailer": "^7.0.6",
-    "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0",
-    "puppeteer": "^24.27.0",
-    "swagger-ui-express": "^5.0.1"
+  "apicache": "^1.6.3",
+  "csv-writer": "^1.6.0",
+  "dotenv": "^17.2.2",
+  "express": "^5.1.0",
+  "express-validator": "^7.2.1",
+  "handlebars": "^4.7.8",
+  "js-yaml": "^4.1.0",
+  "jsonwebtoken": "^9.0.2",
+  "morgan": "^1.10.1",
+  "mysql2": "^3.14.5",
+  "nodemailer": "^7.0.6",
+  "passport": "^0.7.0",
+  "passport-jwt": "^4.0.1",
+  "passport-local": "^1.0.0",
+  "puppeteer": "^24.27.0",
+  "swagger-ui-express": "^5.0.1"
 }
 ```
 
 ---
 
-⚙️ Configuración del entorno
+## ⚙️ Configuración del Entorno
 
-Crea un archivo `.env` en la raíz del proyecto con las siguientes variables:
-
+### 1️⃣ Variables de Entorno (`.env`)
 ```env
+# Servidor
 PORT=3000
 NODE_ENV=development
 
-# Base de datos
+# Base de Datos MySQL
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=password
+DB_PASSWORD=tu_password
 DB_NAME=reservas_db
 
 # JWT
-JWT_SECRET=tu_clave_secreta
-JWT_EXPIRES=1d
+JWT_SECRET=tu_clave_secreta_jwt_muy_segura
 
-# Correo
-MAIL_HOST=smtp.tucorreo.com
-MAIL_PORT=587
-MAIL_USER=usuario@correo.com
-MAIL_PASS=tu_password
+# Configuración de Email (Gmail)
+EMAIL_USUARIO=tu_email@gmail.com
+EMAIL_CLAVE=tu_app_password_gmail
 ```
+
+⚠️ **Importante:**
+- Usar App Password de Gmail (no contraseña normal)  
+- Activar la verificación en 2 pasos  
+- Generar App Password desde: [Google App Passwords](https://myaccount.google.com/apppasswords)
 
 ---
 
-## 🧩 Estructura de rutas
+## 📞 Contacto y Soporte
 
-Todas las rutas usan el prefijo `/api/v1`.
-
-| Módulo   | Ruta base            | Autenticación requerida | Descripción                         |
-|----------|----------------------|-------------------------|-------------------------------------|
-| Auth     | /api/v1/auth         | ❌ No                   | Registro, login y manejo de tokens  |
-| Salones  | /api/v1/salones      | ❌ No                   | Consulta de salones disponibles     |
-| Servicios| /api/v1/servicios    | ❌ No                   | Listado y detalles de servicios     |
-| Turnos   | /api/v1/turnos       | ❌ No                   | Consulta y gestión de turnos        |
-| Reservas | /api/v1/reservas     | ✅ Sí (JWT)             | CRUD de reservas por usuario        |
-| Usuarios | /api/v1/usuarios     | ✅ Sí (JWT)             | Administración de usuarios          |
+🧾 **Repositorio:** [GitHub Grupo E](https://github.com/spuchetti/GrupoE-ProgrIII-FCAD)  
+💻 **Materia:** Programación III – FCAD UNER  
+📅 **Año:** 2025  
 
 ---
 
-## 🧱 Middlewares
+## 📄 Licencia
 
-- passport.authenticate('jwt') → Protege rutas que requieren token.  
-- rutaNoEncontrada → Captura rutas inexistentes (404).  
-- manejadorErrores → Middleware centralizado para manejo de errores.
+Proyecto desarrollado con fines educativos para la materia **Programación III**  
+de la **Facultad de Ciencias de la Administración – UNER**.
 
----
-
-## ⚡ Instalación paso a paso
-
-1. Clonar el repositorio
-
-```bash
-git clone https://github.com/spuchetti/GrupoE-ProgrIII-FCAD/tree/main/TPIntegrador
-```
-
-2. Instalar dependencias
-
-```bash
-npm install
-```
-
-3. Configurar variables de entorno
-
-Crear el archivo `.env` como se indicó arriba y ajustar los valores.
-
-4. Crear la base de datos
-
-5. Ejecutar en modo desarrollo
-
-```bash
-npm run dev
-```
-
-El servidor se ejecuta por defecto en: http://localhost:3000
-
-6. Ejecutar en modo producción
-
-```bash
-npm start
-```
-
----
-
-## 🧠 Ejemplo de uso
-
-Autenticación (Login):
-
-Request:
-```http
-POST /api/v1/login
-Content-Type: application/json
-
-{
-    "email": "usuario@example.com",
-    "password": "123456"
-}
-```
-
-Respuesta:
-```json
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5..."
-}
-```
-
-Usar el token en el header:
-Authorization: Bearer <token>
-
----
-
-## 🧰 Scripts disponibles
-
-```bash
-# Instalar dependencias
-npm install
-
-# Ejecutar en desarrollo
-npm run dev
-
-# Ejecutar en producción
-npm start
-
-```
-
----
-
-## 📘 Documentación API
-
-La documentación Swagger está disponible en:
-
-http://localhost:3000/api-docs
-
-Implementada con swagger-ui-express.
+<p align="center"> 💻 Desarrollado con ❤️ por el <strong>Grupo E</strong> – FCAD UNER </p>
